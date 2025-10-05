@@ -1,7 +1,6 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-// graph.h
 template <typename T>
 class Graph {
 public:
@@ -13,8 +12,8 @@ public:
     virtual void addEdge(const T& v1, const T& v2, int weight = 1) = 0;
     virtual void removeEdge(const T& v1, const T& v2) = 0;
 
-    virtual bool isConnected() const = 0;          // const
-    virtual int distance(const T& v1, const T& v2) const = 0; // const
+    virtual bool isConnected() const = 0;
+    virtual int distance(const T& v1, const T& v2) const = 0;
 };
 
 #endif //GRAPH_H
