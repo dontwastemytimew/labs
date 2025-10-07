@@ -1,44 +1,45 @@
-#ifndef ADJLIST_H
-#define ADJLIST_H
+#ifndef MATRIX_H
+#define MATRIX_H
 
 #include <iostream>
 #include "graph.h"
 #include "data.h"
 #include <vector>
 #include <queue>
-#include <algorithm>
-#include <sstream>
 #include "rand.h"
 using namespace std;
 
-// Клас для графа, представленого списком суміжності
+// Клас для графа, представленого матрицею суміжності
+
 
 template <typename vertexT, typename edgeT = int>
-class AdjacencyListGraph : public Graph<vertexT, edgeT> {
+class AdjacencyMatrixGraph : public Graph<vertexT, edgeT> {
 private:
-    vector<Data<vertexT, edgeT>> vertices;                // вершини з даними
-    vector<vector<Data<vertexT, edgeT>>> adjList;         // список суміжності
+    vector<Data<vertexT, edgeT>> vertices;                   // вершини з даними
+    vector<vector<Data<vertexT, edgeT>>> adjMatrix;          // матриця суміжності
     bool directed;
 
     int getVertexIndex(const vertexT& v) const {
-        for (int i = 0; i < vertices.size(); i++) {
-            if (vertices[i].vertexData == v)
-                return i;
-        }
+        for (int i = 0; i < vertices.size(); i++)
+            if (vertices[i].vertexData == v) return i;
         return -1;
     }
 
 public:
-    explicit AdjacencyListGraph(bool isDirected = false) : directed(isDirected) {}
+    explicit AdjacencyMatrixGraph(bool isDirected = false) : directed(isDirected) {}
 
     void addVertex(const vertexT& v, const edgeT& edgeData = edgeT()) override {
-        if (getVertexIndex(v) != -1) {
-            cout << "Vertex already exists\n";
-            return;
-        }
+        if (getVertexIndex(v) != -1) { cout << "Vertex already exists\n"; return; }
         int num = vertices.size();
         vertices.push_back(Data<vertexT, edgeT>(v, edgeData, num));
-        adjList.push_back({});
+
+        int n = vertices.size();
+        adjMatrix.resize(n);
+        for (auto &row : adjMatrix) row.resize(n);
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                adjMatrix[i][j] = Data<vertexT, edgeT>();
     }
 
     void removeVertex(const vertexT& v) {
@@ -46,33 +47,24 @@ public:
         if (idx == -1) { cout << "Vertex not found\n"; return; }
 
         vertices.erase(vertices.begin() + idx);
-        adjList.erase(adjList.begin() + idx);
-
-        for (int i = 0; i < adjList.size(); i++) {
-            for (int j = 0; j < adjList[i].size(); ) {
-                if (adjList[i][j].number == idx) {
-                    adjList[i].erase(adjList[i].begin() + j);
-                } else {
-                    if (adjList[i][j].number > idx)
-                        adjList[i][j].number--;
-                    j++;
-                }
-            }
-        }
+        adjMatrix.erase(adjMatrix.begin() + idx); // видаляємо рядок
+        for (auto &row : adjMatrix)
+            row.erase(row.begin() + idx);        // видаляємо стовпець
 
         for (int i = 0; i < vertices.size(); i++)
             if (vertices[i].number > idx)
                 vertices[i].number--;
     }
 
+
     void addEdge(const vertexT& v1, const vertexT& v2, const edgeT& edgeData) {
         int idx1 = getVertexIndex(v1);
         int idx2 = getVertexIndex(v2);
         if (idx1 == -1 || idx2 == -1) { cout << "Vertex not found\n"; return; }
 
-        adjList[idx1].push_back(Data<vertexT, edgeT>(edgeData, idx2));
+        adjMatrix[idx1][idx2] = Data<vertexT, edgeT>(edgeData, idx2);
         if (!directed)
-            adjList[idx2].push_back(Data<vertexT, edgeT>(edgeData, idx1));
+            adjMatrix[idx2][idx1] = Data<vertexT, edgeT>(edgeData, idx1);
     }
 
     void removeEdge(const vertexT& v1, const vertexT& v2) {
@@ -80,13 +72,9 @@ public:
         int idx2 = getVertexIndex(v2);
         if (idx1 == -1 || idx2 == -1) { cout << "Vertex not found\n"; return; }
 
-        adjList[idx1].erase(remove_if(adjList[idx1].begin(), adjList[idx1].end(),
-                                      [idx2](const Data<vertexT, edgeT>& d){ return d.number == idx2; }),
-                            adjList[idx1].end());
+        adjMatrix[idx1][idx2] = Data<vertexT, edgeT>();
         if (!directed)
-            adjList[idx2].erase(remove_if(adjList[idx2].begin(), adjList[idx2].end(),
-                                          [idx1](const Data<vertexT, edgeT>& d){ return d.number == idx1; }),
-                                adjList[idx2].end());
+            adjMatrix[idx2][idx1] = Data<vertexT, edgeT>();
     }
 
     bool isConnected() const {
@@ -99,16 +87,17 @@ public:
 
         while (!q.empty()) {
             int u = q.front(); q.pop();
-            for (auto& edge : adjList[u]) {
-                int v = edge.number;
-                if (!visited[v]) { visited[v] = true; q.push(v); }
+            for (int v = 0; v < vertices.size(); v++) {
+                if (adjMatrix[u][v].number != -1 && !visited[v]) {
+                    visited[v] = true;
+                    q.push(v);
+                }
             }
         }
 
         for (bool v : visited) if (!v) return false;
         return true;
     }
-
 
     double distance(const vertexT& v1, const vertexT& v2) const override {
         int idx1 = getVertexIndex(v1);
@@ -128,12 +117,13 @@ public:
             if (visited[u]) continue;
             visited[u] = true;
 
-            for (auto& edge : adjList[u]) {
-                int v = edge.number;
-                double w = edge.getWeight();
-                if (dist[u] + w < dist[v]) {
-                    dist[v] = dist[u] + w;
-                    pq.push({dist[v], v});
+            for (int v = 0; v < vertices.size(); v++) {
+                if (adjMatrix[u][v].number != -1) {
+                    double w = adjMatrix[u][v].getWeight();
+                    if (dist[u] + w < dist[v]) {
+                        dist[v] = dist[u] + w;
+                        pq.push({dist[v], v});
+                    }
                 }
             }
         }
@@ -144,7 +134,7 @@ public:
 
     void generateRandom(int numVertices, int maxEdgesPerVertex, const edgeT& maxWeight = edgeT()) {
         vertices.clear();
-        adjList.clear();
+        adjMatrix.clear();
 
         // Додаємо вершини
         for (int i = 0; i < numVertices; i++)
@@ -163,27 +153,36 @@ public:
         }
     }
 
-
-
     void printGraph() const {
-        cout << "Graph (Adjacency List):\n";
+        cout << "Graph (Adjacency Matrix):\n    ";
+        for (auto& v : vertices) cout << v.vertexData << " ";
+        cout << endl;
+
         for (int i = 0; i < vertices.size(); i++) {
-            cout << vertices[i].vertexData << " -> ";
-            for (auto& edge : adjList[i]) {
-                cout << vertices[edge.number].vertexData << "(" << edge.edgeData << ") ";
+            cout << vertices[i].vertexData << " ";
+            for (int j = 0; j < vertices.size(); j++) {
+                if (adjMatrix[i][j].number != -1)
+                    cout << adjMatrix[i][j].edgeData << " ";
+                else
+                    cout << "0 ";
             }
-            cout << "\n";
+            cout << endl;
         }
     }
 
-
     string toString() const {
         stringstream ss;
-        ss << "Graph (Adjacency List):\n";
+        ss << "Graph (Adjacency Matrix):\n    ";
+        for (auto& v : vertices) ss << v.vertexData << " ";
+        ss << "\n";
+
         for (int i = 0; i < vertices.size(); i++) {
-            ss << vertices[i].vertexData << " -> ";
-            for (auto& edge : adjList[i]) {
-                ss << vertices[edge.number].vertexData << "(" << edge.edgeData << ") ";
+            ss << vertices[i].vertexData << " ";
+            for (int j = 0; j < vertices.size(); j++) {
+                if (adjMatrix[i][j].number != -1)
+                    ss << adjMatrix[i][j].edgeData << " ";
+                else
+                    ss << "0 ";
             }
             ss << "\n";
         }
@@ -194,4 +193,4 @@ public:
 };
 
 
-#endif //ADJLIST_H
+#endif //MATRIX_H
