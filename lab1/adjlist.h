@@ -31,6 +31,8 @@ private:
 public:
     explicit AdjacencyListGraph(bool isDirected = false) : directed(isDirected) {}
 
+    bool isDirected() const { return directed; }
+
     void addVertex(const vertexT& v, const edgeT& edgeData = edgeT()) override {
         if (getVertexIndex(v) != -1) {
             cout << "Vertex already exists\n";
@@ -70,9 +72,10 @@ public:
         int idx2 = getVertexIndex(v2);
         if (idx1 == -1 || idx2 == -1) { cout << "Vertex not found\n"; return; }
 
-        adjList[idx1].push_back(Data<vertexT, edgeT>(edgeData, idx2));
-        if (!directed)
-            adjList[idx2].push_back(Data<vertexT, edgeT>(edgeData, idx1));
+        adjList[idx1].push_back(Data<vertexT, edgeT>(vertexT{}, edgeData, idx2));
+if (!directed)
+    adjList[idx2].push_back(Data<vertexT, edgeT>(vertexT{}, edgeData, idx1));
+
     }
 
     void removeEdge(const vertexT& v1, const vertexT& v2) {
@@ -142,13 +145,14 @@ public:
         return dist[idx2];
     }
 
-    void generateRandom(int numVertices, int maxEdgesPerVertex, const edgeT& maxWeight = edgeT()) {
+    // Генерує граф випадковими вершинами та ребрами
+    void generateRandom(int numVertices, int maxEdgesPerVertex, const edgeT& maxWeight = edgeT(), const vertexT& prototypeVertex = vertexT()) {
         vertices.clear();
         adjList.clear();
 
         // Додаємо вершини
         for (int i = 0; i < numVertices; i++)
-            addVertex(vertexT{});
+            addVertex(prototypeVertex);
 
         // Додаємо випадкові ребра
         for (int i = 0; i < numVertices; i++) {
@@ -170,13 +174,13 @@ public:
         for (int i = 0; i < vertices.size(); i++) {
             cout << vertices[i].vertexData << " -> ";
             for (auto& edge : adjList[i]) {
-                cout << vertices[edge.number].vertexData << "(" << edge.edgeData << ") ";
+                cout << edgeToString(edge.edgeData) << " ";
             }
             cout << "\n";
         }
     }
 
-
+    // Повернення текстового представлення
     string toString() const {
         stringstream ss;
         ss << "Graph (Adjacency List):\n";

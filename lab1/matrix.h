@@ -28,6 +28,8 @@ private:
 public:
     explicit AdjacencyMatrixGraph(bool isDirected = false) : directed(isDirected) {}
 
+    bool isDirected() const { return directed; }
+
     void addVertex(const vertexT& v, const edgeT& edgeData = edgeT()) override {
         if (getVertexIndex(v) != -1) { cout << "Vertex already exists\n"; return; }
         int num = vertices.size();
@@ -39,7 +41,7 @@ public:
 
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
-                adjMatrix[i][j] = Data<vertexT, edgeT>();
+                adjMatrix[i][j].edgeData = edgeT(); // вага ребра
     }
 
     void removeVertex(const vertexT& v) {
@@ -132,13 +134,14 @@ public:
         return dist[idx2];
     }
 
-    void generateRandom(int numVertices, int maxEdgesPerVertex, const edgeT& maxWeight = edgeT()) {
+    // Генерує граф випадковими вершинами та ребрами
+    void generateRandom(int numVertices, int maxEdgesPerVertex, const edgeT& maxWeight = edgeT(), const vertexT& prototypeVertex = vertexT()) {
         vertices.clear();
         adjMatrix.clear();
 
         // Додаємо вершини
         for (int i = 0; i < numVertices; i++)
-            addVertex(vertexT{});
+            addVertex(prototypeVertex);
 
         // Додаємо випадкові ребра
         for (int i = 0; i < numVertices; i++) {
@@ -162,7 +165,7 @@ public:
             cout << vertices[i].vertexData << " ";
             for (int j = 0; j < vertices.size(); j++) {
                 if (adjMatrix[i][j].number != -1)
-                    cout << adjMatrix[i][j].edgeData << " ";
+                    cout << edgeToString(adjMatrix[i][j].edgeData) << " ";
                 else
                     cout << "0 ";
             }
@@ -170,6 +173,7 @@ public:
         }
     }
 
+    // Повернення текстового представлення
     string toString() const {
         stringstream ss;
         ss << "Graph (Adjacency Matrix):\n    ";

@@ -14,7 +14,7 @@ public:
     virtual void addEdge(const vertexT& v1, const vertexT& v2, const edgeT& weight) = 0;
     virtual void removeEdge(const vertexT& v1, const vertexT& v2) = 0;
     virtual bool isConnected() const = 0;
-    virtual edgeT distance(const vertexT& v1, const vertexT& v2) const = 0;
+    virtual double distance(const vertexT& v1, const vertexT& v2) const = 0;
 };
 
 #endif //GRAPH_H

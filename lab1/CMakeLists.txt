@@ -8,4 +8,9 @@ include_directories(.)
 add_executable(lab1
     adjlist.h
     graph.h
-    main.cpp)
+    main.cpp
+        matrix.h
+        vehicle.h
+        environment.h
+        data.h
+)
