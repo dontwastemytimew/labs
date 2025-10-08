@@ -110,9 +110,7 @@ public:
         }
     }
 
-private:
-    // Для перевірки типу дороги між вершинами
-    map<pair<VertexT, VertexT>, VehicleType> roadTypes;
+
 };
 
 #endif // ENVIRONMENT_H
