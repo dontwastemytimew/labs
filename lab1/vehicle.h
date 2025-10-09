@@ -16,20 +16,32 @@ class BaseVehicle {
 protected:
     string name;
     VehicleType type;
-    double speed;  // чим швидше, тим менша "вага"
+    double weight;  // чим швидше, тим менша "вага"
 public:
-    BaseVehicle() : name("Transport"), type(VehicleType::Land), speed(1.0) {} // <-- Дефолтний конструктор
-    BaseVehicle(string n, VehicleType t, double s) : name(n), type(t), speed(s) {}
+    BaseVehicle() : name("Transport"), type(VehicleType::Land), weight(1.0) {}
+    BaseVehicle(string n, VehicleType t, double w) : name(n), type(t), weight(w) {}
     virtual ~BaseVehicle() = default;
 
-    double getWeight() const { return 1.0 / speed; }  // для графа (1/speed)
+    double getWeight() const { return weight; }
     string getName() const { return name; }
     VehicleType getType() const { return type; }
 
-    string toString() const {    // текстове представлення
+    string toString() const {
         string t = (type == VehicleType::Land ? "Land" :
                     type == VehicleType::Water ? "Water" : "Air");
-        return name + " (" + t + ", speed=" + std::to_string(speed) + ")";
+        return name + " (" + t + ", weight=" + std::to_string(weight) + ")";
+    }
+
+    // Це перевантаження оператора == для класу BaseVehicle, порівнювати два об’єкти BaseVehicle на рівність
+    bool operator==(const BaseVehicle& other) const {
+        return name == other.name && type == other.type && weight == other.weight;
+    }
+
+    // Це перевантаження оператора <, дозволити сортування об’єктів BaseVehicle
+    bool operator<(const BaseVehicle& other) const {
+        if (name != other.name) return name < other.name;
+        if (type != other.type) return type < other.type;
+        return weight < other.weight;
     }
 };
 

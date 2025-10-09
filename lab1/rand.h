@@ -1,10 +1,10 @@
 #ifndef RAND_H
 #define RAND_H
 
-
 #include <type_traits>
 #include <cstdlib>
 #include <string>
+#include <vector>
 #include "vehicle.h"
 
 // Дозволяє швидко створювати випадкові ребра для графа.
@@ -40,7 +40,7 @@ std::string generateRandomEdge<std::string>(const std::string&) {
     return s;
 }
 
-// Спеціалізація для vector<int>
+ // Спеціалізація для vector<int>
 template <>
 std::vector<int> generateRandomEdge<std::vector<int>>(const std::vector<int>&) {
     int len = 1 + rand() % 5;

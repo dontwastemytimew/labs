@@ -12,5 +12,4 @@ add_executable(lab1
         matrix.h
         vehicle.h
         environment.h
-        data.h
 )
