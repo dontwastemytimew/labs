@@ -29,7 +29,7 @@ public:
     string toString() const {
         string t = (type == VehicleType::Land ? "Land" :
                     type == VehicleType::Water ? "Water" : "Air");
-        return name + " (" + t + ", weight=" + std::to_string(weight) + ")";
+        return name + " (" + t + ", weight=" + to_string(weight) + ")";
     }
 
     // Це перевантаження оператора == для класу BaseVehicle, порівнювати два об’єкти BaseVehicle на рівність
@@ -62,6 +62,36 @@ class AirVehicle : public BaseVehicle {
 public:
     AirVehicle() : BaseVehicle() {}
     AirVehicle(string n, double s) : BaseVehicle(n, VehicleType::Air, s) {}
+};
+
+class Car : public LandVehicle {
+public:
+    Car(std::string n = "Car", double s = 2.0) : LandVehicle(n, s) {}
+};
+
+class Truck : public LandVehicle {
+public:
+    Truck(std::string n = "Truck", double s = 1.5) : LandVehicle(n, s) {}
+};
+
+class SailBoat : public WaterVehicle {
+public:
+    SailBoat(std::string n = "SailBoat", double s = 1.0) : WaterVehicle(n, s) {}
+};
+
+class MotorBoat : public WaterVehicle {
+public:
+    MotorBoat(std::string n = "MotorBoat", double s = 3.0) : WaterVehicle(n, s) {}
+};
+
+class Plane : public AirVehicle {
+public:
+    Plane(std::string n = "Plane", double s = 5.0) : AirVehicle(n, s) {}
+};
+
+class Helicopter : public AirVehicle {
+public:
+    Helicopter(std::string n = "Helicopter", double s = 4.0) : AirVehicle(n, s) {}
 };
 
 #endif

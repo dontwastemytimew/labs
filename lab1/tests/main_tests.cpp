@@ -3,6 +3,7 @@
 #include "vehicle_tests.h"
 #include "environment_tests.h"
 #include "vehicle_graph_tests.h"
+#include "integration_tests.h"
 
 int main() {
     std::cout << "Running Graph tests\n";
@@ -21,6 +22,9 @@ int main() {
    VehicleGraphTests::runAllTests();
    std::cout << "Vehicle Graph tests passed\n";
 
+    std::cout << "Running Integration tests\n";
+    IntegrationTests::runAllTests();
+    std::cout << "Vehicle Integration passed\n";
 
     return 0;
 }

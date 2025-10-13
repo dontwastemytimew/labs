@@ -1,0 +1,14 @@
+# Формат: from,to,distance,type
+A,B,5,Land
+B,C,3,Water
+C,D,4,Land
+D,E,6,Air
+E,F,2,Water
+A,F,10,Air
+B,D,7,Land
+C,E,5,Air
+F,G,3,Land
+G,H,4,Water
+H,I,6,Air
+I,J,2,Land
+J,A,8,Water

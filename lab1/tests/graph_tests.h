@@ -6,6 +6,7 @@
 #include "matrix.h"
 #include <string>
 #include "vehicle.h"
+#include "rand.h"
 
 class GraphTests {
 private:
@@ -125,6 +126,127 @@ private:
     }
 }
 
+    static void test_generateRandomEdge() {
+        // int
+        int maxInt = 10;
+        int rInt = generateRandomEdge(maxInt);
+        assert(rInt >= 0 && rInt <= maxInt);
+
+        // double
+        double maxDouble = 5.0;
+        double rDouble = generateRandomEdge(maxDouble);
+        assert(rDouble >= 0 && rDouble <= maxDouble); // якщо переписати шаблон під double
+
+        // string
+        std::string rStr = generateRandomEdge(std::string{});
+        assert(!rStr.empty());
+        assert(rStr.length() >= 3 && rStr.length() <= 7);
+
+        // vector<int>
+        std::vector<int> rVec = generateRandomEdge(std::vector<int>{});
+        assert(!rVec.empty());
+        for(int x : rVec) assert(x >= 0 && x < 100);
+
+        // BaseVehicle
+        BaseVehicle bv = generateRandomEdge(BaseVehicle{});
+        assert(!bv.getName().empty());
+        assert(bv.getWeight() > 0);
+    }
+
+    static void test_primMST_AdjList() {
+        AdjacencyListGraph<int> g(false);
+        g.addVertex(1); g.addVertex(2); g.addVertex(3);
+        g.addEdge(1,2,4); g.addEdge(2,3,3); g.addEdge(1,3,5);
+
+        auto mst = g.primMST();
+        assert(mst.size() == 2); // numVertices - 1
+
+        double totalWeight = 0;
+        for (auto& [u,v] : mst) {
+            if ((u==1 && v==2) || (u==2 && v==1)) totalWeight += 4;
+            if ((u==2 && v==3) || (u==3 && v==2)) totalWeight += 3;
+        }
+        assert(totalWeight <= 7);
+    }
+
+    static void test_primMST_AdjMatrix() {
+        AdjacencyMatrixGraph<int> g(false);
+        g.addVertex(1); g.addVertex(2); g.addVertex(3);
+        g.addEdge(1,2,4); g.addEdge(2,3,3); g.addEdge(1,3,5);
+
+        auto mst = g.primMST();
+        assert(mst.size() == 2);
+
+        double totalWeight = 0;
+        for (auto& [u,v] : mst) {
+            if ((u==1 && v==2) || (u==2 && v==1)) totalWeight += 4;
+            if ((u==2 && v==3) || (u==3 && v==2)) totalWeight += 3;
+        }
+        assert(totalWeight <= 7);
+    }
+
+    static void test_directedGraph_AdjList() {
+        AdjacencyListGraph<int> g(true);
+        g.addVertex(1); g.addVertex(2);
+        g.addEdge(1,2,10);
+
+        assert(g.distance(1,2) == 10);
+        assert(g.distance(2,1) == -1);
+    }
+
+    static void test_directedGraph_AdjMatrix() {
+        AdjacencyMatrixGraph<int> g(true);
+        g.addVertex(1); g.addVertex(2);
+        g.addEdge(1,2,10);
+
+        assert(g.distance(1,2) == 10);
+        assert(g.distance(2,1) == -1);
+    }
+
+    static void test_emptyGraph() {
+        AdjacencyListGraph<int> g1(false);
+        assert(g1.isConnected());
+        assert(g1.distance(1,2) == -1);
+
+        AdjacencyMatrixGraph<int> g2(false);
+        assert(g2.isConnected());
+        assert(g2.distance(1,2) == -1);
+    }
+
+    static void test_singleVertexGraph() {
+        AdjacencyListGraph<int> g1(false);
+        g1.addVertex(42);
+        assert(g1.isConnected());
+        assert(g1.distance(42,42) == 0);
+
+        AdjacencyMatrixGraph<int> g2(false);
+        g2.addVertex(42);
+        assert(g2.isConnected());
+        assert(g2.distance(42,42) == 0);
+    }
+
+    static void test_toString_AdjList() {
+        AdjacencyListGraph<int> g(false);
+        g.addVertex(1); g.addVertex(2);
+        g.addEdge(1,2,7);
+
+        std::string s = g.toString();
+        assert(s.find("1 -> 2(7)") != std::string::npos);
+    }
+
+    static void test_toString_AdjMatrix() {
+        AdjacencyMatrixGraph<int> g(false);
+        g.addVertex(1); g.addVertex(2);
+        g.addEdge(1,2,7);
+
+        std::string s = g.toString();
+        assert(s.find("1") != std::string::npos);
+        assert(s.find("2") != std::string::npos);
+
+        assert(s.find("7") != std::string::npos);
+        assert(g.distance(1, 2) == 7.0);
+    }
+
 
 public:
     static void runAllTests() {
@@ -137,6 +259,15 @@ public:
         test_removeVertex_AdjMatrix();
         test_removeEdge_AdjMatrix();
         test_isConnected_AdjMatrix();
+        test_generateRandomEdge();
+        test_primMST_AdjList();
+        test_primMST_AdjMatrix();
+        test_directedGraph_AdjList();
+        test_directedGraph_AdjMatrix();
+        test_emptyGraph();
+        test_singleVertexGraph();
+        test_toString_AdjList();
+        test_toString_AdjMatrix();
     }
 
 

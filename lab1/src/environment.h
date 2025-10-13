@@ -9,6 +9,7 @@
 #include "vehicle.h"
 #include <map>
 #include <sstream>
+#include <fstream>
 #include <string>
 
 using namespace std;
@@ -20,17 +21,17 @@ using namespace std;
 
 class Road {
 private:
-    std::string from;
-    std::string to;
-    int cost;   // довжина або ефективна вага
+    string from;
+    string to;
+    double cost;   // довжина або ефективна вага
     int type;   // 0 - Land, 1 - Water, 2 - Air
 
 public:
-    Road(const std::string& f, const std::string& t, int c, int tp)
+    Road(const string& f, const string& t, int c, int tp)
         : from(f), to(t), cost(c), type(tp) {}
 
-    std::string getFrom() const { return from; }
-    std::string getTo() const { return to; }
+    string getFrom() const { return from; }
+    string getTo() const { return to; }
     int getCost() const { return cost; }
     int getType() const { return type; }
 };
@@ -42,7 +43,7 @@ private:
     vector<BaseVehicle> vehicles;     // список транспортних засобів
     vector<VertexT> vehiclePositions; // поточні позиції транспортних засобів
     map<pair<VertexT, VertexT>, VehicleType> roadTypes; // Для перевірки типу дороги між вершинами
-    std::vector<Road> roads;  // список доріг, реально зберігаємо об’єкти Road
+    vector<Road> roads;  // список доріг, реально зберігаємо об’єкти Road
 
 public:
     Environment() = default;
@@ -121,7 +122,7 @@ public:
 
         vehiclePositions[vehicleIndex] = destination;
 
-        if (simulate) std::this_thread::sleep_for(std::chrono::milliseconds(delayMs));
+        if (simulate) this_thread::sleep_for(std::chrono::milliseconds(delayMs));
     }
 
     // Моделювання маршруту (послідовність вершин)
@@ -142,7 +143,7 @@ public:
         int indexFrom = graph.getVertexIndex(from);
         int indexTo = graph.getVertexIndex(to);
 
-        if (indexFrom == -1 || indexTo == -1) return route; // безпечний вихід
+        if (indexFrom == -1 || indexTo == -1) return route;
 
         vector<double> dist(graph.graphSize(), 1e9);
         vector<int> prev(graph.graphSize(), -1);
@@ -153,7 +154,7 @@ public:
 
         while (!pq.empty()) {
             int u = pq.top().second; pq.pop();
-            for (auto& [v, w] : graph.getAdj(u)) { // getAdj тепер безпечний
+            for (auto& [v, w] : graph.getAdj(u)) {
                 if (dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
                     prev[v] = u;
@@ -190,6 +191,124 @@ public:
         }
         return ss.str();
     }
+
+    // Повертає поточну позицію транспортного засобу за його індексом
+    VertexT getVehiclePosition(int vehicleIndex) const {
+        if (vehicleIndex < 0 || vehicleIndex >= vehiclePositions.size()) {
+            throw out_of_range("Invalid vehicle index");
+        }
+        return vehiclePositions[vehicleIndex];
+    }
+
+    void loadGraphFromFile(const std::string& filename) {
+        ifstream file(filename);
+        if (!file) return;
+        string line;
+        while (getline(file, line)) {
+            if (line.empty() || line[0] == '#') continue;
+            stringstream ss(line);
+            string from, to, typeStr, distStr;
+            double distance;
+            getline(ss, from, ',');
+            getline(ss, to, ',');
+            getline(ss, distStr, ',');
+            distance = std::stod(distStr);
+            getline(ss, typeStr, ',');
+
+            VehicleType type = (typeStr == "Land" ? VehicleType::Land :
+                                typeStr == "Water" ? VehicleType::Water :
+                                VehicleType::Air);
+            addPoint(from);
+            addPoint(to);
+            addPath(from, to, distance, type);
+        }
+    }
+
+
+    void loadVehiclesFromFile(const string& filename) {
+        ifstream file(filename);
+        if (!file) return;
+
+        string line;
+        while (getline(file, line)) {
+            if (line.empty() || line[0] == '#') continue;
+
+            stringstream ss(line);
+            string name, typeStr, speedStr, position;
+            double speed;
+
+            getline(ss, name, ',');
+            getline(ss, typeStr, ',');
+            getline(ss, speedStr, ',');
+            speed = std::stod(speedStr);
+            getline(ss, position, ',');
+
+            BaseVehicle* v = nullptr;
+
+            if (name == "Car") v = new Car(name, speed);
+            else if (name == "Truck") v = new Truck(name, speed);
+            else if (name == "SailBoat") v = new SailBoat(name, speed);
+            else if (name == "MotorBoat") v = new MotorBoat(name, speed);
+            else if (name == "Plane") v = new Plane(name, speed);
+            else if (name == "Helicopter") v = new Helicopter(name, speed);
+            else {
+                // fallback — просто базовий транспорт
+                VehicleType t = (typeStr == "Land" ? VehicleType::Land :
+                                typeStr == "Water" ? VehicleType::Water : VehicleType::Air);
+                v = new BaseVehicle(name, t, speed);
+            }
+
+            addVehicle(*v, position);
+            delete v;
+        }
+    }
+
+
+    void saveGraphToFile(const string& filename) const {
+        ofstream file(filename);
+        if (!file) return;
+
+        for (const auto& road : roads) {
+            string typeStr = (road.getType() == 0 ? "Land" :
+                                  road.getType() == 1 ? "Water" : "Air");
+            file << road.getFrom() << ","
+                 << road.getTo() << ","
+                 << road.getCost() << ","
+                 << typeStr << "\n";
+        }
+    }
+
+    void saveVehiclesToFile(const string& filename) const {
+        ofstream file(filename);
+        if (!file) return;
+
+        for (size_t i = 0; i < vehicles.size(); ++i) {
+            const BaseVehicle& v = vehicles[i];
+            string className;
+
+            // Визначаємо реальний клас об'єкта
+            if (typeid(v) == typeid(Car)) className = "Car";
+            else if (typeid(v) == typeid(Truck)) className = "Truck";
+            else if (typeid(v) == typeid(SailBoat)) className = "SailBoat";
+            else if (typeid(v) == typeid(MotorBoat)) className = "MotorBoat";
+            else if (typeid(v) == typeid(Plane)) className = "Plane";
+            else if (typeid(v) == typeid(Helicopter)) className = "Helicopter";
+            else className = v.getName();
+
+            // Конвертація типу у текст
+            string typeStr = (v.getType() == VehicleType::Land ? "Land" :
+                                   v.getType() == VehicleType::Water ? "Water" : "Air");
+
+            // Запис у файл CSV
+            file << className << ","      // Назва класу
+                 << typeStr << ","        // Вид транспорту
+                 << v.getWeight() << ","  // Швидкість/вага
+                 << vehiclePositions[i]   // Позиція в графі
+                 << "\n";
+        }
+    }
+
+
 
 
 };

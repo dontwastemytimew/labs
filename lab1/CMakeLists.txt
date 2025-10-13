@@ -3,13 +3,12 @@ project(lab1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(.)
+include_directories(src)
 
-add_executable(lab1
-    adjlist.h
-    graph.h
-    main.cpp
-        matrix.h
-        vehicle.h
-        environment.h
+
+add_executable(tests
+        tests/main_tests.cpp
 )
+
+
+target_include_directories(tests PRIVATE ${CMAKE_SOURCE_DIR}/src)

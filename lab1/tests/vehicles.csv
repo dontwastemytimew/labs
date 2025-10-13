@@ -1,0 +1,4 @@
+#name,type,speed,position
+Car,Land,2.0,A
+MotorBoat,Water,1.5,B
+Plane,Air,5.0,A
