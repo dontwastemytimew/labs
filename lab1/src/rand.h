@@ -8,20 +8,40 @@
 #include "vehicle.h"
 
 
-// Дозволяє швидко створювати випадкові ребра для графа.
-// Для BaseVehicle генерує випадковий транспорт з ім’ям, типом та швидкістю.
+/**
+ * @file rand.h
+ * @brief Дозволяє швидко генерувати випадкові значення для графів та транспортних об'єктів.
+ *
+ * Шаблони та спеціалізації для числових типів, рядків, векторів та об'єктів BaseVehicle.
+ */
 
-// Загальний шаблон
+/**
+ * @brief Загальний шаблон для генерації випадкового значення типу T.
+ *
+ * Для арифметичних типів повертає випадкове число від 0 до maxValue.
+ * Для інших типів повертає "пустий" об'єкт T.
+ *
+ * @tparam T Тип значення.
+ * @param maxValue Максимальне значення (для арифметичних типів).
+ * @return Випадкове значення типу T.
+ */
 template <typename T>
 inline T generateRandomEdge(const T& maxValue) {
     if (std::is_arithmetic<T>::value) {
         return rand() % (static_cast<int>(maxValue) + 1);
     } else {
-        return T{}; // пустий об'єкт для всіх інших класів
+        return T{}; ///< пустий об'єкт для всіх інших класів
     }
 }
 
-// Спеціалізація для BaseVehicle
+/**
+ * @brief Спеціалізація шаблону для BaseVehicle.
+ *
+ * Генерує випадковий транспорт з випадковим ім'ям, типом та швидкістю.
+ *
+ * @param dummy Dummy-аргумент для спеціалізації.
+ * @return BaseVehicle Випадковий транспортний засіб.
+ */
 template <>
 inline BaseVehicle generateRandomEdge<BaseVehicle>(const BaseVehicle&) {
     std::string names[] = {"Car", "Truck", "Boat", "Plane", "Bus"};
@@ -31,7 +51,14 @@ inline BaseVehicle generateRandomEdge<BaseVehicle>(const BaseVehicle&) {
     return BaseVehicle(names[idx], type, speed);
 }
 
-// Спеціалізація для string
+/**
+ * @brief Спеціалізація шаблону для std::string.
+ *
+ * Генерує випадковий рядок довжиною від 3 до 7 символів.
+ *
+ * @param dummy Dummy-аргумент для спеціалізації.
+ * @return std::string Випадковий рядок.
+ */
 template <>
 inline std::string generateRandomEdge<std::string>(const std::string&) {
     std::string s;
@@ -41,7 +68,15 @@ inline std::string generateRandomEdge<std::string>(const std::string&) {
     return s;
 }
 
- // Спеціалізація для vector<int>
+
+/**
+ * @brief Спеціалізація шаблону для std::vector<int>.
+ *
+ * Генерує вектор випадкових цілих чисел довжиною від 1 до 5.
+ *
+ * @param dummy Dummy-аргумент для спеціалізації.
+ * @return std::vector<int> Випадковий вектор цілих чисел.
+ */
 template <>
 inline std::vector<int> generateRandomEdge<std::vector<int>>(const std::vector<int>&) {
     int len = 1 + rand() % 5;

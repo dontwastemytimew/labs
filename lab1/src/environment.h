@@ -14,19 +14,30 @@
 
 using namespace std;
 
-// Environment – поєднує граф і транспорт.
-// canMove() перевіряє, чи транспорт може рухатися по дорозі (за типом).
-// moveVehicle() – фактичний рух транспорту; враховується відстань через граф.
-// simulateRoute() – послідовне переміщення транспорту по маршруту, можна додати візуалізацію через затримку.
 
+/**
+ * @file environment.h
+ * @brief Містить клас Road та шаблонний клас Environment для керування графом та транспортними засобами.
+ */
+
+/**
+ * @brief Клас, який представляє дорогу між двома вершинами.
+ */
 class Road {
 private:
-    string from;
-    string to;
-    double cost;   // довжина або ефективна вага
-    int type;   // 0 - Land, 1 - Water, 2 - Air
+    string from; ///< Початкова вершина
+    string to;   ///< Кінцева вершина
+    double cost; ///< Вартість/довжина дороги
+    int type;    ///< Тип дороги: 0 - Land, 1 - Water, 2 - Air
 
 public:
+    /**
+     * @brief Конструктор дороги
+     * @param f Початкова вершина
+     * @param t Кінцева вершина
+     * @param c Вартість/довжина
+     * @param tp Тип дороги
+     */
     Road(const string& f, const string& t, int c, int tp)
         : from(f), to(t), cost(c), type(tp) {}
 
@@ -36,26 +47,38 @@ public:
     int getType() const { return type; }
 };
 
+
+/**
+ * @brief Клас середовища, яке об’єднує граф і транспортні засоби.
+ * @tparam GraphType Тип графа (Adjacency List/Matrix)
+ * @tparam VertexT Тип вершин графа (наприклад, std::string)
+ */
 template <typename GraphType, typename VertexT>
 class Environment {
 private:
-    GraphType graph;                  // будь-який граф
-    vector<BaseVehicle> vehicles;     // список транспортних засобів
-    vector<VertexT> vehiclePositions; // поточні позиції транспортних засобів
-    map<pair<VertexT, VertexT>, VehicleType> roadTypes; // Для перевірки типу дороги між вершинами
-    vector<Road> roads;  // список доріг, реально зберігаємо об’єкти Road
+    GraphType graph;                                     ///< Граф середовища
+    vector<BaseVehicle> vehicles;                        ///< Список транспортних засобів
+    vector<VertexT> vehiclePositions;                    ///< Поточні позиції транспортних засобів
+    map<pair<VertexT, VertexT>, VehicleType> roadTypes;  ///< Типи доріг між вершинами
+    vector<Road> roads;                                  ///< Список об’єктів Road
 
 public:
     Environment() = default;
 
     Environment(const GraphType& g) : graph(g) {}
 
-    // Додати вершину (пункт)
+    /** @brief Додати вершину (пункт) у граф */
     void addPoint(const VertexT& point) {
         graph.addVertex(point);
     }
 
-    // Додати ребро (дорогу) з вагою/відстанню і типом дороги
+    /**
+    * @brief Додати ребро (дорогу) між вершинами
+    * @param from Початкова вершина
+    * @param to Кінцева вершина
+    * @param distance Відстань або вага
+    * @param type Тип транспортного засобу, який може рухатися
+    */
     void addPath(const VertexT& from, const VertexT& to, double distance, VehicleType type) {
         graph.addEdge(from, to, distance);
 
@@ -65,11 +88,17 @@ public:
         roads.emplace_back(from, to, static_cast<int>(distance), static_cast<int>(type));
     }
 
+    /**
+     * @brief Додати транспортний засіб до середовища
+     * @param vehicle Транспортний засіб
+     * @param startPosition Початкова позиція у графі
+     */
     void addVehicle(const BaseVehicle& vehicle, const VertexT& startPosition) {
         vehicles.push_back(vehicle);
         vehiclePositions.push_back(startPosition);
     }
 
+    /** @brief Вивести інформацію про всі транспортні засоби у середовищі */
     void showVehicles() const {
         for (size_t i = 0; i < vehicles.size(); i++) {
             const auto& v = vehicles[i];
@@ -82,7 +111,13 @@ public:
         }
     }
 
-    // Перевірка чи транспорт може рухатися між двома вершинами (Для AirVehicle дозволяємо рух по будь-яких дорогах)
+    /**
+      * @brief Перевіряє, чи транспортний засіб може рухатися між двома вершинами
+      * @param vehicleIndex Індекс транспортного засобу
+      * @param from Початкова вершина
+      * @param to Кінцева вершина
+      * @return true, якщо можна рухатися
+      */
     bool canMove(int vehicleIndex, const VertexT& from, const VertexT& to) const {
         if (vehicleIndex < 0 || vehicleIndex >= vehicles.size()) return false;
         auto it = roadTypes.find({from, to});
@@ -92,7 +127,13 @@ public:
         return roadType == vehicles[vehicleIndex].getType() || vehicles[vehicleIndex].getType() == VehicleType::Air;
     }
 
-    // Рух транспортного засобу до вершини
+    /**
+    * @brief Рух транспортного засобу до вершини
+    * @param vehicleIndex Індекс транспортного засобу
+    * @param destination Кінцева вершина
+    * @param simulate Якщо true, додає затримку для імітації руху
+    * @param delayMs Затримка у мілісекундах
+    */
     void moveVehicle(int vehicleIndex, const VertexT& destination, bool simulate = false, int delayMs = 500) {
         if (vehicleIndex < 0 || vehicleIndex >= vehicles.size()) {
             cout << "Invalid vehicle index!\n";
@@ -125,7 +166,12 @@ public:
         if (simulate) this_thread::sleep_for(std::chrono::milliseconds(delayMs));
     }
 
-    // Моделювання маршруту (послідовність вершин)
+    /**
+    * @brief Імітація маршруту для транспортного засобу
+    * @param vehicleIndex Індекс транспортного засобу
+    * @param route Послідовність вершин маршруту
+    * @param delayMs Затримка між кроками
+    */
     void simulateRoute(int vehicleIndex, const vector<VertexT>& route, int delayMs = 500) {
         if (vehicleIndex < 0 || vehicleIndex >= vehicles.size()) return;
 
@@ -134,7 +180,7 @@ public:
         }
     }
 
-    // Обчислити найкоротший шлях для транспортного засобу
+    /** @brief Обчислити оптимальний маршрут між двома вершинами для транспортного засобу */
     vector<VertexT> computeOptimalRoute(int vehicleIndex, const VertexT& from, const VertexT& to) const {
         vector<VertexT> route;
 
@@ -174,12 +220,12 @@ public:
         return route;
     }
 
-    // Повертає текстове представлення внутрішнього графа
+    /** @brief Повертає текстове представлення графа */
     string graphToString() const {
         return graph.toString();
     }
 
-    // Метод, який повертає всі дороги у вигляді тексту
+    /** @brief Повертає всі дороги у вигляді тексту */
     string roadsToString() const {
         stringstream ss;
         ss << "Roads in the environment:\n";
@@ -192,7 +238,7 @@ public:
         return ss.str();
     }
 
-    // Повертає поточну позицію транспортного засобу за його індексом
+    /** @brief Повертає поточну позицію транспортного засобу */
     VertexT getVehiclePosition(int vehicleIndex) const {
         if (vehicleIndex < 0 || vehicleIndex >= vehiclePositions.size()) {
             throw out_of_range("Invalid vehicle index");
@@ -200,6 +246,7 @@ public:
         return vehiclePositions[vehicleIndex];
     }
 
+    /** @brief Зчитування графа з CSV файлу */
     void loadGraphFromFile(const std::string& filename) {
         ifstream file(filename);
         if (!file) return;
@@ -225,6 +272,7 @@ public:
     }
 
 
+    /** @brief Зчитування транспортних засобів з CSV файлу */
     void loadVehiclesFromFile(const string& filename) {
         ifstream file(filename);
         if (!file) return;
@@ -263,7 +311,7 @@ public:
         }
     }
 
-
+    /** @brief Збереження графа у CSV файл */
     void saveGraphToFile(const string& filename) const {
         ofstream file(filename);
         if (!file) return;
@@ -278,6 +326,7 @@ public:
         }
     }
 
+    /** @brief Збереження транспортних засобів у CSV файл */
     void saveVehiclesToFile(const string& filename) const {
         ofstream file(filename);
         if (!file) return;

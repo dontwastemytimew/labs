@@ -10,15 +10,31 @@
 #include "graph.h"
 using namespace std;
 
-// Клас для графа, представленого списком суміжності
 
+/**
+ * @file adjlist.h
+ * @brief Клас для графа, представленого списком суміжності
+ *
+ * @tparam T Тип вершини графа
+ */
+
+/**
+ * @brief Реалізація графа зі списком суміжності.
+ * @tparam T тип вершини графа
+ */
 template <typename T>
 class AdjacencyListGraph : public Graph<T> {
 private:
-    vector<T> vertices;                         // вершини
-    vector<vector<pair<int,double>>> adjList;   // список суміжності: {індекс вершини, вага}
-    bool directed;                              // орієнтованість графа
+    vector<T> vertices;                         /**< Вершини графа */
+    vector<vector<pair<int,double>>> adjList;   /**< Список суміжності: {індекс вершини, вага ребра} */
+    bool directed;                              /**< Чи є граф орієнтованим */
 
+    /**
+        * @brief Повертає індекс вершини у списку vertices
+        *
+        * @param v вершина
+        * @return int індекс або -1, якщо вершини нема
+        */
     int getIndex(const T& v) const {
         for (int i = 0; i < vertices.size(); i++)
             if (vertices[i] == v) return i;
@@ -26,16 +42,34 @@ private:
     }
 
 public:
+
+    /**
+    * @brief Конструктор
+    * @param isDirected чи орієнтований граф
+    */
     explicit AdjacencyListGraph(bool isDirected = false) : directed(isDirected) {}
 
+    /**
+    * @brief Перевірка, чи граф орієнтований
+    * @return true якщо орієнтований
+    */
     bool isDirected() const { return directed; }
 
+
+    /**
+     * @brief Додає вершину до графа
+     * @param v вершина
+     */
     void addVertex(const T& v) override {
         if (getIndex(v) != -1) return;
         vertices.push_back(v);
         adjList.push_back({});
     }
 
+    /**
+    * @brief Видаляє вершину з графа
+    * @param v вершина
+    */
     void removeVertex(const T& v) {
         int idx = getIndex(v);
         if (idx == -1) {
@@ -58,6 +92,13 @@ public:
         }
     }
 
+
+    /**
+     * @brief Додає ребро між вершинами
+     * @param v1 початкова вершина
+     * @param v2 кінцева вершина
+     * @param weight вага ребра
+     */
     void addEdge(const T& v1, const T& v2, double weight = 1.0) override {
         int i1 = getIndex(v1), i2 = getIndex(v2);
         if (i1 == -1 || i2 == -1) return;
@@ -67,6 +108,11 @@ public:
             adjList[i2].push_back({i1, weight});
     }
 
+    /**
+    * @brief Видаляє ребро між вершинами
+    * @param v1 початкова вершина
+    * @param v2 кінцева вершина
+    */
     void removeEdge(const T& v1, const T& v2) override {
         int idx1 = getIndex(v1);
         int idx2 = getIndex(v2);
@@ -94,6 +140,10 @@ public:
         }
     }
 
+    /**
+    * @brief Перевіряє, чи граф зв'язний
+    * @return true якщо всі вершини досяжні
+    */
     bool isConnected() const override {
         if (vertices.empty()) return true;
 
@@ -114,6 +164,12 @@ public:
         return all_of(visited.begin(), visited.end(), [](bool b){ return b; });
     }
 
+    /**
+    * @brief Обчислює відстань між вершинами за допомогою Dijkstra
+    * @param v1 початкова вершина
+    * @param v2 кінцева вершина
+    * @return double відстань або -1 якщо шляху немає
+    */
     double distance(const T& v1, const T& v2) const override {
         int i1 = getVertexIndex(v1);
         int i2 = getVertexIndex(v2);
@@ -146,7 +202,13 @@ public:
     }
 
 
-    // Генерує граф випадковими вершинами та ребрами
+    /**
+  * @brief Генерує граф випадковими вершинами та ребрами
+  * @param numVertices кількість вершин
+  * @param maxEdgesPerVertex максимальна кількість ребер на вершину
+  * @param maxWeight максимальна вага ребра
+  * @param prototypeVertex прототип вершини (значення)
+  */
     void generateRandom(int numVertices, int maxEdgesPerVertex, double maxWeight = 10.0, const T& prototypeVertex = T()) {
         if (numVertices <= 0) return; // перевірка
         vertices.clear();
@@ -167,6 +229,7 @@ public:
         }
     }
 
+    /** @brief Виводить граф на консоль */
     void printGraph() const {
         cout << "Graph (Adjacency List) " << (directed ? "[Directed]" : "[Undirected]") << ":\n";
         for (int i = 0; i < vertices.size(); i++) {
@@ -177,7 +240,7 @@ public:
         }
     }
 
-    // Повернення текстового представлення
+    /** @brief Повертає текстове представлення графа */
     string toString() const {
         stringstream ss;
         ss << "Graph (Adjacency List) " << (directed ? "[Directed]" : "[Undirected]") << ":\n";
@@ -190,24 +253,29 @@ public:
         return ss.str();
     }
 
-    // Повертає список суміжності вершини (індекс + вага)
+    /** @brief Повертає список суміжності вершини */
     const vector<pair<int,double>>& getAdj(int idx) const {
         static vector<pair<int,double>> empty;
         if (idx < 0 || idx >= adjList.size()) return empty;
         return adjList[idx];
     }
 
-    // Повертає кількість вершин у графі
+    /** @brief Повертає кількість вершин */
     int graphSize() const { return vertices.size(); }
 
+    /** @brief Повертає індекс вершини */
     int getVertexIndex(const T& v) const { return getIndex(v); }
 
+    /** @brief Повертає вершину за індексом */
     T getVertex(int idx) const {
         if (idx < 0 || idx >= vertices.size()) throw out_of_range("getVertex: index out of range");
         return vertices[idx];
     }
 
-    // Алгоритм Пріма для побудови мінімального кістякового дерева
+    /**
+      * @brief Алгоритм Пріма для мінімального кістякового дерева
+      * @return список ребер MST
+      */
     vector<pair<T, T>> primMST() const {
         if (vertices.empty()) return {};
 
