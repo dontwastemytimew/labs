@@ -1,6 +1,7 @@
 #include "schemaeditor.h"
 #include "ui_schemaeditor.h"
 #include "schemaeditor.h"
+#include <QMessageBox>
 
 SchemaEditor::SchemaEditor(QWidget *parent) :
     QDialog(parent), ui(new Ui::SchemaEditor) {
@@ -12,18 +13,11 @@ SchemaEditor::~SchemaEditor() {
     delete ui;
 }
 
-void SchemaEditor::on_createSchemaButton_clicked()
-{
-    qDebug() << "Create button was clicked inside SchemaEditor!";
-    // Тут буде логіка створення схеми
-}
 
 Schema SchemaEditor::getSchema() const
 {
-    // Створюємо схему з назвою
     Schema newSchema(ui->schemaNameLineEdit->text());
 
-    // Додаємо до неї всі поля, які користувач ввів
     for (const auto& field : m_tempFields) {
         newSchema.addField(field);
     }
@@ -44,6 +38,29 @@ void SchemaEditor::on_addFieldButton_clicked() {
         ui->fieldsListWidget->addItem(fieldName);
 
         ui->fieldNameLineEdit->clear();
+    }
+}
+
+SchemaEditor::SchemaEditor(const Schema &schemaToEdit, QWidget *parent) :
+    QDialog(parent), ui(new Ui::SchemaEditor) {
+    ui->setupUi(this);
+    setWindowTitle("Редактор схеми");
+
+    ui->schemaNameLineEdit->setText(schemaToEdit.getName());
+
+    for (const auto& field : schemaToEdit.getFields()) {
+        m_tempFields.append(field);
+        ui->fieldsListWidget->addItem(field.name);
+    }
+}
+
+void SchemaEditor::accept()
+{
+
+    if (ui->schemaNameLineEdit->text().trimmed().isEmpty()) {
+        QMessageBox::warning(this, "Помилка валідації", "Назва схеми не може бути порожньою!");
+    } else {
+        QDialog::accept();
     }
 }
 

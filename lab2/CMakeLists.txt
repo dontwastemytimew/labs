@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 project(lab2)
-set(CMAKE_PREFIX_PATH "D:/Qt/6.9.3/mingw_64")
+set(CMAKE_PREFIX_PATH "D:/Qt/6.5.3/mingw_64")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -12,6 +12,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Svg
         REQUIRED)
 
 add_executable(lab2
@@ -19,9 +20,6 @@ add_executable(lab2
         mainwindow.h
         mainwindow.cpp
         mainwindow.ui
-        schemamanager.h
-        schemamanager.cpp
-        schemamanager.ui
         schemaeditor.h
         schemaeditor.cpp
         schema.cpp
@@ -32,38 +30,49 @@ add_executable(lab2
         noteeditor.h
         noteeditor.cpp
         noteeditor.ui
+        schemamanager.cpp
+        schemamanager.h
+        schemamanager.ui
+        resources.qrc
+        notewidget.h
+        notewidget.cpp
+        notewidget.ui
+        tageditor.h
+        tageditor.cpp
+        tageditor.ui
 )
 target_link_libraries(lab2
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        Qt::Svg
 )
 
-if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(DEBUG_SUFFIX)
-    if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
-        set(DEBUG_SUFFIX "d")
-    endif ()
-    set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
-    if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-        set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-            set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        endif ()
-    endif ()
-    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
+if (WIN32)
+    set(QT_BIN_DIR "${CMAKE_PREFIX_PATH}/bin")
+    set(QT_PLUGIN_DIR "${CMAKE_PREFIX_PATH}/plugins")
+
+    set(QT_LIBS Core Gui Widgets Svg)
+
+    foreach(QT_LIB ${QT_LIBS})
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E make_directory
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-    endif ()
-    foreach (QT_LIB Core Gui Widgets)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
-    endforeach (QT_LIB)
-endif ()
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${QT_BIN_DIR}/Qt6${QT_LIB}.dll"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/"
+        )
+    endforeach()
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${QT_PLUGIN_DIR}/platforms/qwindows.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/"
+    )
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/imageformats"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${QT_PLUGIN_DIR}/imageformats/qsvg.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/imageformats/"
+    )
+endif()

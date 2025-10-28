@@ -1,14 +1,20 @@
 #include "schemamanager.h"
 #include "ui_schemamanager.h"
 #include "schemaeditor.h"
+#include <QDialog>
+#include <QPushButton>
+#include <QWidget>
 
 SchemaManager::SchemaManager(DataManager *dataManager, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::SchemaManager),
     m_dataManager(dataManager)
 {
     ui->setupUi(this);
     setWindowTitle("Керування схемами");
+
+    connect(ui->createSchemaButton, &QPushButton::clicked, this, &SchemaManager::openSchemaEditor);
+
     updateSchemasList();
 }
 
@@ -25,7 +31,7 @@ void SchemaManager::updateSchemasList()
     }
 }
 
-void SchemaManager::on_createSchemaButton_clicked()
+void SchemaManager::openSchemaEditor()
 {
     SchemaEditor editor(this);
 
@@ -37,4 +43,42 @@ void SchemaManager::on_createSchemaButton_clicked()
 
         updateSchemasList();
     }
+}
+
+void SchemaManager::on_deleteSchemaButton_clicked()
+{
+    int currentIndex = ui->schemasListWidget->currentRow();
+
+    if (currentIndex < 0) {
+        return;
+    }
+
+    m_dataManager->removeSchema(currentIndex);
+
+    updateSchemasList();
+}
+
+void SchemaManager::on_editSchemaButton_clicked()
+{
+    int currentIndex = ui->schemasListWidget->currentRow();
+    if (currentIndex < 0) {
+        return;
+    }
+
+    const Schema& schemaToEdit = m_dataManager->getSchemas()[currentIndex];
+
+    SchemaEditor editor(schemaToEdit, this);
+
+    if (editor.exec() == QDialog::Accepted)
+    {
+
+        Schema updatedSchema = editor.getSchema();
+        m_dataManager->updateSchema(currentIndex, updatedSchema);
+        updateSchemasList();
+    }
+}
+
+void SchemaManager::on_closeButton_clicked()
+{
+    this->close();
 }

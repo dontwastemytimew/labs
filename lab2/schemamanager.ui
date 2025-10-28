@@ -6,44 +6,71 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
-    <height>517</height>
+    <width>416</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <widget class="QListWidget" name="schemasListWidget"/>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="createSchemaButton">
-       <property name="text">
-        <string>Створити схему</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="editSchemaButton">
-       <property name="text">
-        <string>Редагувати схему</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="deleteSchemaButton">
-       <property name="text">
-        <string>Видалити схему</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>401</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QListWidget" name="schemasListWidget"/>
+    </item>
+    <item>
+     <widget class="QPushButton" name="createSchemaButton">
+      <property name="text">
+       <string>Створити схему</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/icons/plus-circle.svg</normaloff>:/icons/plus-circle.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="editSchemaButton">
+      <property name="text">
+       <string>Редагувати схему</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/icons/edit.svg</normaloff>:/icons/edit.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="deleteSchemaButton">
+      <property name="text">
+       <string>Видалити схему</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/icons/trash-2.svg</normaloff>:/icons/trash-2.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="closeButton">
+      <property name="text">
+       <string>Закрити</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

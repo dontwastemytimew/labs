@@ -4,6 +4,7 @@
 #include <QLineEdit>
 #include "note.h"
 
+
 namespace Ui { class NoteEditor; }
 
 class NoteEditor : public QDialog {
@@ -11,11 +12,15 @@ class NoteEditor : public QDialog {
 
 public:
     explicit NoteEditor(DataManager *dataManager, QWidget *parent = nullptr);
+
+    explicit NoteEditor(DataManager *dataManager, const Note& noteToEdit, QWidget *parent = nullptr);
+
     ~NoteEditor();
     Note getNote() const;
 
     private slots:
     void onSchemaSelected(int index);
+    void accept() override;
 
 private:
     Ui::NoteEditor *ui;

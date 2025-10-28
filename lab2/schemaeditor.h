@@ -9,13 +9,16 @@ class SchemaEditor : public QDialog {
 
 public:
     explicit SchemaEditor(QWidget *parent = nullptr);
+
+    explicit SchemaEditor(const Schema& schemaToEdit, QWidget *parent = nullptr);
+
     ~SchemaEditor();
 
     Schema getSchema() const;
 
     private slots:
-    void on_createSchemaButton_clicked();
     void on_addFieldButton_clicked();
+    void accept() override;
 
 private:
     Ui::SchemaEditor *ui;

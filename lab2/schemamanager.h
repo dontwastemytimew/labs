@@ -1,10 +1,11 @@
 #pragma once
 #include <QWidget>
 #include "datamanager.h"
+#include <QDialog>
 
 namespace Ui { class SchemaManager; }
 
-class SchemaManager : public QWidget {
+class SchemaManager : public QDialog {
     Q_OBJECT
 
 public:
@@ -12,7 +13,10 @@ public:
     ~SchemaManager();
 
     private slots:
-    void on_createSchemaButton_clicked();
+    void openSchemaEditor();
+    void on_deleteSchemaButton_clicked();
+    void on_editSchemaButton_clicked();
+    void on_closeButton_clicked();
 
 private:
     void updateSchemasList();
