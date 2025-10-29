@@ -41,11 +41,26 @@ add_executable(lab2
         tageditor.cpp
         tageditor.ui
 )
+
+add_executable(lab2_tests
+        tests/tests_main.cpp
+        tests/test_models.h
+        tests/test_datamanager.h
+        tests/test_io.h
+        datamanager.cpp
+        note.cpp
+        schema.cpp
+)
+
 target_link_libraries(lab2
         Qt::Core
         Qt::Gui
         Qt::Widgets
         Qt::Svg
+)
+
+target_link_libraries(lab2_tests PRIVATE
+        Qt6::Core
 )
 
 if (WIN32)

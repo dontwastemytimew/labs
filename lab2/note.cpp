@@ -33,3 +33,7 @@ const QSet<QString>& Note::getTags() const {
 }
 
 void Note::setTags(const QSet<QString>& tags) { m_tags = tags; }
+
+void Note::setTitle(const QString &title) {
+    m_title = title;
+}

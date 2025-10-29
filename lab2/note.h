@@ -20,6 +20,8 @@ public:
 
     void setTags(const QSet<QString>& tags);
 
+    void setTitle(const QString& title);
+
 private:
     QString m_title;
     int m_schemaId; // ID схеми, за якою створено нотатку
