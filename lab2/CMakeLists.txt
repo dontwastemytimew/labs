@@ -1,5 +1,18 @@
 cmake_minimum_required(VERSION 3.29)
 project(lab2)
+set(PROJECT_SOURCES
+        main.cpp
+        mainwindow.h mainwindow.cpp mainwindow.ui
+        datamanager.h datamanager.cpp
+        schema.h schema.cpp
+        note.h note.cpp
+        schemamanager.h schemamanager.cpp schemamanager.ui
+        schemaeditor.h schemaeditor.cpp schemaeditor.ui
+        noteeditor.h noteeditor.cpp noteeditor.ui
+        tageditor.h tageditor.cpp tageditor.ui
+        notewidget.h notewidget.cpp notewidget.ui
+        resources.qrc
+)
 set(CMAKE_PREFIX_PATH "D:/Qt/6.5.3/mingw_64")
 
 set(CMAKE_CXX_STANDARD 20)
@@ -13,34 +26,10 @@ find_package(Qt6 COMPONENTS
         Gui
         Widgets
         Svg
+        LinguistTools
         REQUIRED)
 
-add_executable(lab2
-        main.cpp
-        mainwindow.h
-        mainwindow.cpp
-        mainwindow.ui
-        schemaeditor.h
-        schemaeditor.cpp
-        schema.cpp
-        datamanager.h
-        datamanager.cpp
-        note.h
-        note.cpp
-        noteeditor.h
-        noteeditor.cpp
-        noteeditor.ui
-        schemamanager.cpp
-        schemamanager.h
-        schemamanager.ui
-        resources.qrc
-        notewidget.h
-        notewidget.cpp
-        notewidget.ui
-        tageditor.h
-        tageditor.cpp
-        tageditor.ui
-)
+add_executable(lab2 ${PROJECT_SOURCES})
 
 add_executable(lab2_tests
         tests/tests_main.cpp
@@ -91,3 +80,14 @@ if (WIN32)
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/imageformats/"
     )
 endif()
+
+
+set(TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/i18n/lab2_en_US.ts)
+
+
+qt_add_translations(lab2
+        QM_FILES_OUTPUT_DIR "${CMAKE_BINARY_DIR}/i18n"
+        TS_FILES ${TS_FILES})
+
+
+target_sources(lab2 PRIVATE ${lab2_TRANSLATION_FILES})

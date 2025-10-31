@@ -1,10 +1,11 @@
 #include "tageditor.h"
 #include "ui_tageditor.h"
+#include <QDebug>
 
 TagEditor::TagEditor(const QSet<QString>& currentTags, QWidget *parent) :
     QDialog(parent), ui(new Ui::TagEditor), m_tags(currentTags) {
     ui->setupUi(this);
-    setWindowTitle("Редактор тегів");
+    setWindowTitle(tr("Редактор тегів"));
 
     for (const auto& tag : m_tags) {
         ui->tagsListWidget->addItem(tag);
@@ -25,5 +26,8 @@ void TagEditor::on_addTagButton_clicked() {
         m_tags.insert(newTag);
         ui->tagsListWidget->addItem(newTag);
         ui->tagLineEdit->clear();
+        qInfo() << tr("Додано новий тег: %1").arg(newTag);
+    } else {
+        qWarning() << tr("Спроба додати порожній або існуючий тег: %1").arg(newTag);
     }
 }

@@ -4,13 +4,16 @@
 #include <QList>
 #include <QString>
 #include <QDebug>
+#include <QObject>
+#include <QFile>
+#include <QTextStream>
 
 using json = nlohmann::json;
 
 DataManager::DataManager() {
-    Schema bookSchema("Книга");
-    bookSchema.addField({"Автор", "Текст"});
-    bookSchema.addField({"Рік видання", "Число"});
+    Schema bookSchema(QObject::tr("Книга"));
+    bookSchema.addField({QObject::tr("Автор"), QObject::tr("Текст")});
+    bookSchema.addField({QObject::tr("Рік видання"), QObject::tr("Число")});
     m_schemas.append(bookSchema);
 }
 
@@ -85,26 +88,30 @@ void DataManager::saveToFile(const QString &filePath) const {
     std::ofstream file(filePath.toStdString());
     if (file.is_open()) {
         file << rootObject.dump(4);
+        qInfo() << QObject::tr("Дані успішно збережено у файл:") << filePath;
+    } else {
+        qCritical() << QObject::tr("ПОМИЛКА: не вдалося відкрити файл для збереження:") << filePath;
     }
 }
 
 void DataManager::loadFromFile(const QString &filePath) {
     std::ifstream file(filePath.toStdString());
     if (!file.is_open()) {
+        qWarning() << QObject::tr("Файл даних не знайдено. Буде створено новий при закритті.");
         return;
     }
 
     json rootObject;
     try {
         file >> rootObject;
-    } catch (...) {
+    } catch (const std::exception& e) {
+        qCritical() << QObject::tr("ПОМИЛКА: Не вдалося розпарсити JSON файл:") << filePath << QObject::tr("Помилка:") << e.what();
         return;
     }
 
     m_schemas.clear();
     m_notes.clear();
 
-    // Завантажуємо схеми
     if (rootObject.contains("schemas")) {
         for (const auto& schemaObject : rootObject["schemas"]) {
             Schema newSchema(QString::fromStdString(schemaObject["name"]));
@@ -120,7 +127,7 @@ void DataManager::loadFromFile(const QString &filePath) {
         }
     }
 
-    // Завантажуємо нотатки
+    if (rootObject.contains("notes")) {
         for (const auto& noteObject : rootObject["notes"]) {
             Note newNote(
                 QString::fromStdString(noteObject["title"]),
@@ -140,6 +147,9 @@ void DataManager::loadFromFile(const QString &filePath) {
         }
     }
 
+    qInfo() << QObject::tr("Дані успішно завантажено. Знайдено %1 схем та %2 нотаток.").arg(m_schemas.size()).arg(m_notes.size());
+}
+
 void DataManager::removeNote(int index) {
     if (index >= 0 && index < m_notes.size()) {
         m_notes.removeAt(index);
@@ -152,7 +162,6 @@ void DataManager::exportNote(int index, const QString& filePath) const {
     json noteObject;
     const Note& note = m_notes[index];
 
-    // Зберігаємо лише цю одну нотатку
     noteObject["title"] = note.getTitle().toStdString();
     noteObject["schemaId"] = note.getSchemaId();
     noteObject["tags"] = json::array();
@@ -164,26 +173,39 @@ void DataManager::exportNote(int index, const QString& filePath) const {
         noteObject["fields"][it.key().toStdString()] = it.value().toStdString();
     }
 
-    // Записуємо JSON-об'єкт у файл
     std::ofstream file(filePath.toStdString());
     if (file.is_open()) {
         file << noteObject.dump(4);
+        qInfo() << QObject::tr("Нотатку '%1' успішно експортовано у файл: %2").arg(note.getTitle()).arg(filePath);
+    } else {
+        qCritical() << QObject::tr("ПОМИЛКА: Не вдалося відкрити файл для експорту:") << filePath;
     }
 }
 
-void DataManager::importNote(const QString& filePath) {
-    std::ifstream file(filePath.toStdString());
-    if (!file.is_open()) return;
 
-    json noteObject;
-    try {
-        file >> noteObject;
-    } catch (...) {
+void DataManager::importNote(const QString& filePath) {
+    qDebug() << "--- Початок імпорту з файлу:" << filePath;
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCritical() << QObject::tr("ПОМИЛКА: Не вдалося відкрити файл для імпорту: %1").arg(filePath);
         return;
     }
 
-    QString title = QString::fromStdString(noteObject.value("title", "Імпортована нотатка"));
-    int schemaId = noteObject.value("schemaId", 0); // Беремо ID схеми
+    QString content = file.readAll();
+    file.close();
+
+    json noteObject;
+    try {
+        noteObject = json::parse(content.toStdString());
+        qDebug() << "JSON файл успішно розпарсено.";
+    } catch (const std::exception& e) {
+        qCritical() << QObject::tr("ПОМИЛКА: JSON файл пошкоджено! %1").arg(e.what());
+        return;
+    }
+
+    QString title = QString::fromStdString(noteObject.value("title", QObject::tr("Імпортована нотатка").toStdString()));
+    int schemaId = noteObject.value("schemaId", 0);
 
     Note importedNote(title, schemaId);
 
@@ -201,5 +223,9 @@ void DataManager::importNote(const QString& filePath) {
         importedNote.setTags(tags);
     }
 
+    qDebug() << QObject::tr("Нотатка для додавання готова. Назва: %1").arg(importedNote.getTitle());
+
     m_notes.append(importedNote);
+    qInfo() << QObject::tr("Нотатку успішно імпортовано з файлу: %1").arg(filePath);
+    qDebug() << QObject::tr("Кількість нотаток у DataManager тепер: %1").arg(m_notes.size());
 }

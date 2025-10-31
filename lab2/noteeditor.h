@@ -61,4 +61,5 @@ private:
  Ui::NoteEditor *ui;             ///< Вказівник на об'єкти інтерфейсу.
  DataManager *m_dataManager;     ///< Вказівник на "мозок" програми.
  QList<QLineEdit*> m_fieldInputs;///< Тимчасове сховище для вказівників на динамічно створені поля вводу.
+ QSet<QString> m_originalTags;   ///< Тимчасове сховище для тегів нотатки під час її редагування.
 };

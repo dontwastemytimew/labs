@@ -17,7 +17,7 @@ NoteWidget::NoteWidget(const Note &note, QWidget *parent) :
 
     if (!tags.isEmpty()) {
         QStringList tagsList = tags.values();
-        ui->tagsLabel->setText("#" + tagsList.join(" #"));
+        ui->tagsLabel->setText(tr("#") + tagsList.join(tr(" #")));
     } else {
         ui->tagsLabel->hide();
     }
