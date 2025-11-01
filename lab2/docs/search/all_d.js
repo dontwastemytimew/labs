@@ -17,5 +17,5 @@ var searchData=
   ['mainwindow_14',['MainWindow',['../class_main_window.html',1,'MainWindow'],['../class_main_window.html#a996c5a2b6f77944776856f08ec30858d',1,'MainWindow::MainWindow()']]],
   ['mainwindow_2ecpp_15',['mainwindow.cpp',['../mainwindow_8cpp.html',1,'']]],
   ['mainwindow_2eh_16',['mainwindow.h',['../mainwindow_8h.html',1,'']]],
-  ['messagehandler_17',['messageHandler',['../main_8cpp.html#a9606ad1b9a909a366a2d8317438d2e58',1,'main.cpp']]]
+  ['messagehandler_17',['messageHandler',['../class_logger.html#aaa6abe88083fd5b539ef22698143cade',1,'Logger']]]
 ];

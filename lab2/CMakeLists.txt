@@ -12,6 +12,8 @@ set(PROJECT_SOURCES
         tageditor.h tageditor.cpp tageditor.ui
         notewidget.h notewidget.cpp notewidget.ui
         resources.qrc
+        logger.cpp
+        logger.h
 )
 set(CMAKE_PREFIX_PATH "D:/Qt/6.5.3/mingw_64")
 

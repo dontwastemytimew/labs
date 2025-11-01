@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "DataManager", "class_data_manager.html", null ],
     [ "Field", "struct_field.html", null ],
+    [ "Logger", "class_logger.html", null ],
     [ "Note", "class_note.html", null ],
     [ "QDialog", null, [
       [ "NoteEditor", "class_note_editor.html", null ],
