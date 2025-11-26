@@ -1,0 +1,113 @@
+/* Основний фон */
+QWidget {
+    background-color: #fff0f5; /* Lavender Blush (дуже світло-рожевий) */
+    color: #333333;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 10pt;
+}
+
+/* Список нотаток */
+QListWidget {
+    background-color: #ffffff;
+    border: 1px solid #ffb6c1; /* Light Pink */
+    border-radius: 8px;
+    outline: 0;
+}
+
+/* Плашка нотатки */
+QListWidget::item {
+    background-color: #ffffff;
+    color: #333333;
+    border-radius: 6px;
+    padding: 5px;
+    margin: 2px 5px;
+    border: 1px solid #ffc0cb; /* Pink */
+}
+
+/* Вибрана нотатка */
+QListWidget::item:selected {
+    background-color: #ffe4e1; /* Misty Rose */
+    border: 1px solid #db7093; /* Pale Violet Red */
+    color: black;
+}
+
+/* Кнопки */
+QPushButton {
+    background-color: #ffb6c1; /* Light Pink */
+    color: #4a2c2c;
+   border-radius: 5px;
+       border: 1px solid #ff69b4;
+       font-weight: bold;
+
+padding: 6px 4px;
+    font-weight: bold;
+    font-size: 10pt;
+    min-width: 0px;
+    min-height: 35px;
+    margin-top: 5px;
+}
+
+QPushButton:hover {
+    background-color: #ffc0cb;
+}
+
+QPushButton:pressed {
+    background-color: #db7093;
+    color: white;
+}
+
+/* Поля вводу */
+QLineEdit, QComboBox {
+    background-color: #ffffff;
+    border: 1px solid #ffb6c1;
+    border-radius: 5px;
+    padding: 4px;
+    color: #333;
+    selection-background-color: #ff69b4;
+}
+
+QLineEdit:focus {
+    border: 1px solid #db7093;
+}
+
+/* Вкладки */
+QTabWidget::pane {
+    border: 1px solid #ffb6c1;
+    border-radius: 4px;
+    background: white;
+}
+
+QTabBar::tab {
+    background: #ffe4e1;
+    color: #333;
+    padding: 8px 12px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid #ffb6c1;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background: #ff69b4;
+    color: white;
+    font-weight: bold;
+}
+
+/* Стиль для заголовка */
+QLabel#appTitleLabel {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #ff69b4;
+    padding: 10px;
+    background-color: transparent;
+    qproperty-alignment: 'AlignHCenter | AlignVCenter';
+}
+
+
+/* Спеціальний стиль для кнопок у діалогових вікнах */
+QDialogButtonBox QPushButton {
+    padding: 4px 10px;
+    min-width: 60px;
+    min-height: 25px;
+    margin: 0px;
+}
