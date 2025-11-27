@@ -1,0 +1,122 @@
+\doxysection{src/rand.h File Reference}
+\hypertarget{rand_8h}{}\label{rand_8h}\index{src/rand.h@{src/rand.h}}
+
+
+Дозволяє швидко генерувати випадкові значення для графів та транспортних об\textquotesingle{}єктів.  
+
+
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include "{}vehicle.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\T \mbox{\hyperlink{rand_8h_a6e3b52420c21915a47a4d847bf2635fc}{generate\+Random\+Edge}} (const T \&max\+Value)
+\begin{DoxyCompactList}\small\item\em Загальний шаблон для генерації випадкового значення типу T. \end{DoxyCompactList}\item 
+template$<$$>$ \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \mbox{\hyperlink{rand_8h_a37bd2fd4e266bd6111813bf6222072a9}{generate\+Random\+Edge$<$ Base\+Vehicle $>$}} (const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&)
+\begin{DoxyCompactList}\small\item\em Спеціалізація шаблону для \doxylink{class_base_vehicle}{Base\+Vehicle}. \end{DoxyCompactList}\item 
+template$<$$>$ std\+::string \mbox{\hyperlink{rand_8h_a15737543581a69778096139e07d716d8}{generate\+Random\+Edge$<$ std\+::string $>$}} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Спеціалізація шаблону для std\+::string. \end{DoxyCompactList}\item 
+template$<$$>$ std\+::vector$<$ int $>$ \mbox{\hyperlink{rand_8h_a78e6b89ca063bceffe3d489b1aafd97f}{generate\+Random\+Edge$<$ std\+::vector$<$ int $>$ $>$}} (const std\+::vector$<$ int $>$ \&)
+\begin{DoxyCompactList}\small\item\em Спеціалізація шаблону для std\+::vector$<$int$>$. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Дозволяє швидко генерувати випадкові значення для графів та транспортних об\textquotesingle{}єктів. 
+
+Шаблони та спеціалізації для числових типів, рядків, векторів та об\textquotesingle{}єктів \doxylink{class_base_vehicle}{Base\+Vehicle}. 
+
+\label{doc-func-members}
+\Hypertarget{rand_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{rand_8h_a6e3b52420c21915a47a4d847bf2635fc}\index{rand.h@{rand.h}!generateRandomEdge@{generateRandomEdge}}
+\index{generateRandomEdge@{generateRandomEdge}!rand.h@{rand.h}}
+\doxysubsubsection{\texorpdfstring{generateRandomEdge()}{generateRandomEdge()}}
+{\footnotesize\ttfamily \label{rand_8h_a6e3b52420c21915a47a4d847bf2635fc} 
+template$<$typename T$>$ \\
+T generate\+Random\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{max\+Value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Загальний шаблон для генерації випадкового значення типу T. 
+
+Для арифметичних типів повертає випадкове число від 0 до max\+Value. Для інших типів повертає "{}пустий"{} об\textquotesingle{}єкт T.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Тип значення. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Value} & Максимальне значення (для арифметичних типів). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Випадкове значення типу T. 
+\end{DoxyReturn}
+\texorpdfstring{$<$}{<} пустий об\textquotesingle{}єкт для всіх інших класів\Hypertarget{rand_8h_a37bd2fd4e266bd6111813bf6222072a9}\index{rand.h@{rand.h}!generateRandomEdge$<$ BaseVehicle $>$@{generateRandomEdge$<$ BaseVehicle $>$}}
+\index{generateRandomEdge$<$ BaseVehicle $>$@{generateRandomEdge$<$ BaseVehicle $>$}!rand.h@{rand.h}}
+\doxysubsubsection{\texorpdfstring{generateRandomEdge$<$ BaseVehicle $>$()}{generateRandomEdge< BaseVehicle >()}}
+{\footnotesize\ttfamily \label{rand_8h_a37bd2fd4e266bd6111813bf6222072a9} 
+template$<$$>$ \\
+\mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \mbox{\hyperlink{rand_8h_a6e3b52420c21915a47a4d847bf2635fc}{generate\+Random\+Edge}}$<$ \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} $>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Спеціалізація шаблону для \doxylink{class_base_vehicle}{Base\+Vehicle}. 
+
+Генерує випадковий транспорт з випадковим ім\textquotesingle{}ям, типом та швидкістю.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dummy} & Dummy-\/аргумент для спеціалізації. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_base_vehicle}{Base\+Vehicle} Випадковий транспортний засіб. 
+\end{DoxyReturn}
+\Hypertarget{rand_8h_a15737543581a69778096139e07d716d8}\index{rand.h@{rand.h}!generateRandomEdge$<$ std::string $>$@{generateRandomEdge$<$ std::string $>$}}
+\index{generateRandomEdge$<$ std::string $>$@{generateRandomEdge$<$ std::string $>$}!rand.h@{rand.h}}
+\doxysubsubsection{\texorpdfstring{generateRandomEdge$<$ std::string $>$()}{generateRandomEdge< std::string >()}}
+{\footnotesize\ttfamily \label{rand_8h_a15737543581a69778096139e07d716d8} 
+template$<$$>$ \\
+std\+::string \mbox{\hyperlink{rand_8h_a6e3b52420c21915a47a4d847bf2635fc}{generate\+Random\+Edge}}$<$ std\+::string $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Спеціалізація шаблону для std\+::string. 
+
+Генерує випадковий рядок довжиною від 3 до 7 символів.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dummy} & Dummy-\/аргумент для спеціалізації. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Випадковий рядок. 
+\end{DoxyReturn}
+\Hypertarget{rand_8h_a78e6b89ca063bceffe3d489b1aafd97f}\index{rand.h@{rand.h}!generateRandomEdge$<$ std::vector$<$ int $>$ $>$@{generateRandomEdge$<$ std::vector$<$ int $>$ $>$}}
+\index{generateRandomEdge$<$ std::vector$<$ int $>$ $>$@{generateRandomEdge$<$ std::vector$<$ int $>$ $>$}!rand.h@{rand.h}}
+\doxysubsubsection{\texorpdfstring{generateRandomEdge$<$ std::vector$<$ int $>$ $>$()}{generateRandomEdge< std::vector< int > >()}}
+{\footnotesize\ttfamily \label{rand_8h_a78e6b89ca063bceffe3d489b1aafd97f} 
+template$<$$>$ \\
+std\+::vector$<$ int $>$ \mbox{\hyperlink{rand_8h_a6e3b52420c21915a47a4d847bf2635fc}{generate\+Random\+Edge}}$<$ std\+::vector$<$ int $>$ $>$ (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Спеціалізація шаблону для std\+::vector$<$int$>$. 
+
+Генерує вектор випадкових цілих чисел довжиною від 1 до 5.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dummy} & Dummy-\/аргумент для спеціалізації. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$int$>$ Випадковий вектор цілих чисел. 
+\end{DoxyReturn}

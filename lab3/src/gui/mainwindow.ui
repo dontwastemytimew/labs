@@ -73,7 +73,7 @@
             <string>Пошук</string>
            </property>
            <property name="icon">
-            <iconset resource="resources.qrc">
+            <iconset resource="../../resources.qrc">
              <normaloff>:/icons/search.svg</normaloff>:/icons/search.svg</iconset>
            </property>
           </widget>
@@ -90,7 +90,7 @@
             <string>Створити нотатку</string>
            </property>
            <property name="icon">
-            <iconset resource="resources.qrc">
+            <iconset resource="../../resources.qrc">
              <normaloff>:/icons/plus-circle.svg</normaloff>:/icons/plus-circle.svg</iconset>
            </property>
           </widget>
@@ -107,7 +107,7 @@
             <string>Керувати схемами</string>
            </property>
            <property name="icon">
-            <iconset resource="resources.qrc">
+            <iconset resource="../../resources.qrc">
              <normaloff>:/icons/edit.svg</normaloff>:/icons/edit.svg</iconset>
            </property>
           </widget>
@@ -123,6 +123,10 @@
            <property name="text">
             <string>Імпорт</string>
            </property>
+           <property name="icon">
+            <iconset resource="../../resources.qrc">
+             <normaloff>:/icons/import.png</normaloff>:/icons/import.png</iconset>
+           </property>
           </widget>
          </item>
          <item>
@@ -137,7 +141,7 @@
             <string>Налаштування</string>
            </property>
            <property name="icon">
-            <iconset resource="resources.qrc">
+            <iconset resource="../../resources.qrc">
              <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
            </property>
           </widget>
@@ -172,7 +176,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

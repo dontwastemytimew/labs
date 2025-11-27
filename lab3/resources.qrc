@@ -6,6 +6,7 @@
         <file>icons/trash-2.svg</file>
         <file>icons/search.svg</file>
         <file>icons/settings.png</file>
+        <file>icons/import.png</file>
     </qresource>
 
     <qresource prefix="/i18n">

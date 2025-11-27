@@ -1,0 +1,196 @@
+\doxysection{Base\+Vehicle Class Reference}
+\hypertarget{class_base_vehicle}{}\label{class_base_vehicle}\index{BaseVehicle@{BaseVehicle}}
+
+
+Базовий клас для всіх транспортних засобів.  
+
+
+
+
+{\ttfamily \#include $<$vehicle.\+h$>$}
+
+Inheritance diagram for Base\+Vehicle\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.916667cm]{class_base_vehicle}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}\label{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf} 
+{\bfseries Base\+Vehicle} ()
+\begin{DoxyCompactList}\small\item\em Конструктор за замовчуванням \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_base_vehicle_af171f6826279ca8c237de43d70396a37}{Base\+Vehicle}} (string n, \mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}} t, double w)
+\begin{DoxyCompactList}\small\item\em Конструктор з параметрами \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_base_vehicle_a3ba8f9393dbf887ab8a13e1577b8f07b}{get\+Weight}} () const
+\begin{DoxyCompactList}\small\item\em Повертає "{}вагу"{} транспортного засобу \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_base_vehicle_a5b39849d220306667cbe2e7c4fd49abb}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Повертає ім\textquotesingle{}я транспортного засобу \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}} \mbox{\hyperlink{class_base_vehicle_ac80fc225b9fc1c9a91c8a4abae9f2a02}{get\+Type}} () const
+\begin{DoxyCompactList}\small\item\em Повертає тип транспортного засобу \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_base_vehicle_a6bf91e6efd9f5578b380662c50ff17f5}{to\+String}} () const
+\begin{DoxyCompactList}\small\item\em Повертає рядкове представлення транспортного засобу \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_base_vehicle_aa4019c670aa815ddc2f6c95c9e1ad1a4}{operator==}} (const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&other) const
+\begin{DoxyCompactList}\small\item\em Перевантаження оператора == для порівняння двох транспортних засобів \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_base_vehicle_a38870de2f6e219922de5812cc666bb2e}{operator$<$}} (const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&other) const
+\begin{DoxyCompactList}\small\item\em Перевантаження оператора \texorpdfstring{$<$}{<} для сортування транспортних засобів \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}
+\item 
+\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}} \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}
+\item 
+double \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Базовий клас для всіх транспортних засобів. 
+
+Містить ім\textquotesingle{}я, тип та "{}вагу"{} (швидкість) транспортного засобу. Використовується у графах для моделювання руху. 
+
+\label{doc-constructors}
+\Hypertarget{class_base_vehicle_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_base_vehicle_af171f6826279ca8c237de43d70396a37}\index{BaseVehicle@{BaseVehicle}!BaseVehicle@{BaseVehicle}}
+\index{BaseVehicle@{BaseVehicle}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{BaseVehicle()}{BaseVehicle()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_af171f6826279ca8c237de43d70396a37} 
+Base\+Vehicle\+::\+Base\+Vehicle (\begin{DoxyParamCaption}\item[{string}]{n}{, }\item[{\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}}}]{t}{, }\item[{double}]{w}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Конструктор з параметрами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & Ім\textquotesingle{}я транспортного засобу \\
+\hline
+{\em t} & Тип транспортного засобу \\
+\hline
+{\em w} & "{}Вага"{} транспортного засобу \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_base_vehicle_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_base_vehicle_a5b39849d220306667cbe2e7c4fd49abb}\index{BaseVehicle@{BaseVehicle}!getName@{getName}}
+\index{getName@{getName}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_a5b39849d220306667cbe2e7c4fd49abb} 
+string Base\+Vehicle\+::get\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Повертає ім\textquotesingle{}я транспортного засобу 
+
+\begin{DoxyReturn}{Returns}
+name 
+\end{DoxyReturn}
+\Hypertarget{class_base_vehicle_ac80fc225b9fc1c9a91c8a4abae9f2a02}\index{BaseVehicle@{BaseVehicle}!getType@{getType}}
+\index{getType@{getType}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_ac80fc225b9fc1c9a91c8a4abae9f2a02} 
+\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}} Base\+Vehicle\+::get\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Повертає тип транспортного засобу 
+
+\begin{DoxyReturn}{Returns}
+type 
+\end{DoxyReturn}
+\Hypertarget{class_base_vehicle_a3ba8f9393dbf887ab8a13e1577b8f07b}\index{BaseVehicle@{BaseVehicle}!getWeight@{getWeight}}
+\index{getWeight@{getWeight}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{getWeight()}{getWeight()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_a3ba8f9393dbf887ab8a13e1577b8f07b} 
+double Base\+Vehicle\+::get\+Weight (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Повертає "{}вагу"{} транспортного засобу 
+
+\begin{DoxyReturn}{Returns}
+weight 
+\end{DoxyReturn}
+\Hypertarget{class_base_vehicle_a38870de2f6e219922de5812cc666bb2e}\index{BaseVehicle@{BaseVehicle}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_a38870de2f6e219922de5812cc666bb2e} 
+bool Base\+Vehicle\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Перевантаження оператора \texorpdfstring{$<$}{<} для сортування транспортних засобів 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & інший транспортний засіб \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, якщо поточний об\textquotesingle{}єкт менший за other 
+\end{DoxyReturn}
+\Hypertarget{class_base_vehicle_aa4019c670aa815ddc2f6c95c9e1ad1a4}\index{BaseVehicle@{BaseVehicle}!operator==@{operator==}}
+\index{operator==@{operator==}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_aa4019c670aa815ddc2f6c95c9e1ad1a4} 
+bool Base\+Vehicle\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Перевантаження оператора == для порівняння двох транспортних засобів 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & інший транспортний засіб \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, якщо рівні name, type та weight 
+\end{DoxyReturn}
+\Hypertarget{class_base_vehicle_a6bf91e6efd9f5578b380662c50ff17f5}\index{BaseVehicle@{BaseVehicle}!toString@{toString}}
+\index{toString@{toString}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily \label{class_base_vehicle_a6bf91e6efd9f5578b380662c50ff17f5} 
+string Base\+Vehicle\+::to\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Повертає рядкове представлення транспортного засобу 
+
+\begin{DoxyReturn}{Returns}
+рядок виду "{}\+Name (\+Type, weight=\+W)"{} 
+\end{DoxyReturn}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_base_vehicle_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}\index{BaseVehicle@{BaseVehicle}!name@{name}}
+\index{name@{name}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily \label{class_base_vehicle_a867c44cb006d85e41243d28a68defe21} 
+string Base\+Vehicle\+::name\hspace{0.3cm}{\ttfamily [protected]}}
+
+Ім\textquotesingle{}я транспортного засобу \Hypertarget{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}\index{BaseVehicle@{BaseVehicle}!type@{type}}
+\index{type@{type}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \label{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24} 
+\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}} Base\+Vehicle\+::type\hspace{0.3cm}{\ttfamily [protected]}}
+
+Тип транспортного засобу (Land, Water, Air) \Hypertarget{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}\index{BaseVehicle@{BaseVehicle}!weight@{weight}}
+\index{weight@{weight}!BaseVehicle@{BaseVehicle}}
+\doxysubsubsection{\texorpdfstring{weight}{weight}}
+{\footnotesize\ttfamily \label{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a} 
+double Base\+Vehicle\+::weight\hspace{0.3cm}{\ttfamily [protected]}}
+
+"{}Вага"{} транспортного засобу, чим менше — тим швидше 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{vehicle_8h}{vehicle.\+h}}\end{DoxyCompactItemize}

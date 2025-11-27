@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowTitle(tr("Редактор структурованих нотаток"));
+
     ui->notesListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(ui->notesListWidget, &QWidget::customContextMenuRequested, this, &MainWindow::onNotesListContextMenuRequested);
@@ -175,6 +177,8 @@ void MainWindow::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
+
+        setWindowTitle(tr("Редактор структурованих нотаток"));
     }
     QMainWindow::changeEvent(event);
 }

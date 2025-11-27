@@ -1,0 +1,246 @@
+\doxysection{Adjacency\+Matrix\+Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_adjacency_matrix_graph}{}\label{class_adjacency_matrix_graph}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+
+
+Шаблонний клас графа, представлений матрицею суміжності.  
+
+
+
+
+{\ttfamily \#include $<$matrix.\+h$>$}
+
+Inheritance diagram for Adjacency\+Matrix\+Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_adjacency_matrix_graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_adjacency_matrix_graph_ac296d9025be4ed88d66bee6164f573b4}{Adjacency\+Matrix\+Graph}} (bool \mbox{\hyperlink{class_adjacency_matrix_graph_aa9c2bd140441600e65fb5ca00457ecc7}{is\+Directed}}=false)
+\begin{DoxyCompactList}\small\item\em Конструктор \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_aa9c2bd140441600e65fb5ca00457ecc7}\label{class_adjacency_matrix_graph_aa9c2bd140441600e65fb5ca00457ecc7} 
+bool {\bfseries is\+Directed} () const
+\begin{DoxyCompactList}\small\item\em Перевірка, чи граф орієнтований \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_matrix_graph_adab27dc461df267ea6dbcf31b1a3e3a0}{add\+Vertex}} (const T \&v) override
+\begin{DoxyCompactList}\small\item\em Додає вершину до графа \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_matrix_graph_a8e5b8bcf1a44ddf7fa258e030365ecf2}{remove\+Vertex}} (const T \&v) override
+\begin{DoxyCompactList}\small\item\em Видаляє вершину з графа \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_matrix_graph_aaf1a9020a9caba10cbbdd5e4eba6f694}{add\+Edge}} (const T \&v1, const T \&v2, double weight=1.\+0) override
+\begin{DoxyCompactList}\small\item\em Додає ребро між вершинами \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_matrix_graph_af87c405284cbf50cd30f4dfbe78c2268}{remove\+Edge}} (const T \&v1, const T \&v2) override
+\begin{DoxyCompactList}\small\item\em Видаляє ребро між вершинами \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_adjacency_matrix_graph_ab7661cffd6a608f24070907761ab02b9}{is\+Connected}} () const override
+\begin{DoxyCompactList}\small\item\em Перевіряє, чи граф зв\textquotesingle{}язний \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_adjacency_matrix_graph_a0c5163042fa5d90132bb2d32a04b6273}{distance}} (const T \&v1, const T \&v2) const override
+\begin{DoxyCompactList}\small\item\em Обчислює відстань між вершинами за допомогою Dijkstra. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_matrix_graph_a027e166806305b76a613651b4d17f02e}{generate\+Random}} (int num\+Vertices, int max\+Edges\+Per\+Vertex, double max\+Weight=10.\+0, const T \&prototype\+Vertex=T())
+\begin{DoxyCompactList}\small\item\em Генерує граф випадковими вершинами та ребрами \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_ac8b548bd7dc9367d22761c90bf2e1671}\label{class_adjacency_matrix_graph_ac8b548bd7dc9367d22761c90bf2e1671} 
+void {\bfseries print\+Graph} () const
+\begin{DoxyCompactList}\small\item\em Виводить граф на консоль \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_a49a9b0603c0205250826329305909f84}\label{class_adjacency_matrix_graph_a49a9b0603c0205250826329305909f84} 
+string {\bfseries to\+String} () const
+\begin{DoxyCompactList}\small\item\em Повертає текстове представлення графа \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_a5a9e53c2bcd86bd02078b928ba61719a}\label{class_adjacency_matrix_graph_a5a9e53c2bcd86bd02078b928ba61719a} 
+vector$<$ pair$<$ int, double $>$ $>$ {\bfseries get\+Adj} (int idx) const
+\begin{DoxyCompactList}\small\item\em Повертає список суміжності вершини \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_ab3d760427d982691f3fa07d837c1e28c}\label{class_adjacency_matrix_graph_ab3d760427d982691f3fa07d837c1e28c} 
+int {\bfseries graph\+Size} () const
+\begin{DoxyCompactList}\small\item\em Повертає кількість вершин у графі \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_abbc92ea7b7448b5a98b0dafd405eec5d}\label{class_adjacency_matrix_graph_abbc92ea7b7448b5a98b0dafd405eec5d} 
+int {\bfseries get\+Vertex\+Index} (const T \&v) const
+\begin{DoxyCompactList}\small\item\em Повертає індекс вершини \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_matrix_graph_a7e7283c68eebca5506b38b268a8b1c6b}\label{class_adjacency_matrix_graph_a7e7283c68eebca5506b38b268a8b1c6b} 
+T {\bfseries get\+Vertex} (int idx) const
+\begin{DoxyCompactList}\small\item\em Повертає вершину за індексом \end{DoxyCompactList}\item 
+vector$<$ pair$<$ T, T $>$ $>$ \mbox{\hyperlink{class_adjacency_matrix_graph_a70794e57bea87773383e4e9672b21f1d}{prim\+MST}} () const
+\begin{DoxyCompactList}\small\item\em Алгоритм Пріма для побудови мінімального кістякового дерева \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_graph}{Graph$<$ T $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_graph_a2ccc82f656fb8cd443feef0add6e32a1}{\texorpdfstring{$\sim$}{\string~}\+Graph}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Adjacency\+Matrix\+Graph$<$ T $>$}
+Шаблонний клас графа, представлений матрицею суміжності. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Тип вершини графа \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{class_adjacency_matrix_graph_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_adjacency_matrix_graph_ac296d9025be4ed88d66bee6164f573b4}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!AdjacencyMatrixGraph@{AdjacencyMatrixGraph}}
+\index{AdjacencyMatrixGraph@{AdjacencyMatrixGraph}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{AdjacencyMatrixGraph()}{AdjacencyMatrixGraph()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_ac296d9025be4ed88d66bee6164f573b4} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\mbox{\hyperlink{class_adjacency_matrix_graph}{\+::\+Adjacency\+Matrix\+Graph}} (\begin{DoxyParamCaption}\item[{bool}]{is\+Directed}{ = {\ttfamily false}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Конструктор 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Directed} & чи орієнтований граф \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_adjacency_matrix_graph_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_adjacency_matrix_graph_aaf1a9020a9caba10cbbdd5e4eba6f694}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_aaf1a9020a9caba10cbbdd5e4eba6f694} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::add\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{, }\item[{double}]{weight}{ = {\ttfamily 1.0}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Додає ребро між вершинами 
+
+
+
+Implements \mbox{\hyperlink{class_graph_ab615d23b1f9f314fe1ccd395a209b0c3}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_matrix_graph_adab27dc461df267ea6dbcf31b1a3e3a0}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_adab27dc461df267ea6dbcf31b1a3e3a0} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::add\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Додає вершину до графа 
+
+
+
+Implements \mbox{\hyperlink{class_graph_a59d1ebaa3be8d657385cd9529c71e6a1}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_matrix_graph_a0c5163042fa5d90132bb2d32a04b6273}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!distance@{distance}}
+\index{distance@{distance}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{distance()}{distance()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_a0c5163042fa5d90132bb2d32a04b6273} 
+template$<$typename T$>$ \\
+double \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::distance (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Обчислює відстань між вершинами за допомогою Dijkstra. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & початкова вершина \\
+\hline
+{\em v2} & кінцева вершина \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double відстань або -\/1 якщо шляху немає 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_graph_a41eedf787fa832e7c99d1ca290b74705}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_matrix_graph_a027e166806305b76a613651b4d17f02e}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!generateRandom@{generateRandom}}
+\index{generateRandom@{generateRandom}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{generateRandom()}{generateRandom()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_a027e166806305b76a613651b4d17f02e} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::generate\+Random (\begin{DoxyParamCaption}\item[{int}]{num\+Vertices}{, }\item[{int}]{max\+Edges\+Per\+Vertex}{, }\item[{double}]{max\+Weight}{ = {\ttfamily 10.0}, }\item[{const T \&}]{prototype\+Vertex}{ = {\ttfamily T()}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Генерує граф випадковими вершинами та ребрами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Vertices} & кількість вершин \\
+\hline
+{\em max\+Edges\+Per\+Vertex} & максимальна кількість ребер на вершину \\
+\hline
+{\em max\+Weight} & максимальна вага ребра \\
+\hline
+{\em prototype\+Vertex} & прототип вершини (значення) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_adjacency_matrix_graph_ab7661cffd6a608f24070907761ab02b9}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!isConnected@{isConnected}}
+\index{isConnected@{isConnected}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isConnected()}{isConnected()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_ab7661cffd6a608f24070907761ab02b9} 
+template$<$typename T$>$ \\
+bool \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::is\+Connected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Перевіряє, чи граф зв\textquotesingle{}язний 
+
+\begin{DoxyReturn}{Returns}
+true якщо всі вершини досяжні 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_graph_ac67bb38bcbdb4aa53c0aa0a946c3b2bd}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_matrix_graph_a70794e57bea87773383e4e9672b21f1d}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!primMST@{primMST}}
+\index{primMST@{primMST}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{primMST()}{primMST()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_a70794e57bea87773383e4e9672b21f1d} 
+template$<$typename T$>$ \\
+vector$<$ pair$<$ T, T $>$ $>$ \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::prim\+MST (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Алгоритм Пріма для побудови мінімального кістякового дерева 
+
+\begin{DoxyReturn}{Returns}
+список ребер MST 
+\end{DoxyReturn}
+\Hypertarget{class_adjacency_matrix_graph_af87c405284cbf50cd30f4dfbe78c2268}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!removeEdge@{removeEdge}}
+\index{removeEdge@{removeEdge}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{removeEdge()}{removeEdge()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_af87c405284cbf50cd30f4dfbe78c2268} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::remove\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Видаляє ребро між вершинами 
+
+
+
+Implements \mbox{\hyperlink{class_graph_a81d762ef70a746464f8eae250f526916}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_matrix_graph_a8e5b8bcf1a44ddf7fa258e030365ecf2}\index{AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}!removeVertex@{removeVertex}}
+\index{removeVertex@{removeVertex}!AdjacencyMatrixGraph$<$ T $>$@{AdjacencyMatrixGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{removeVertex()}{removeVertex()}}
+{\footnotesize\ttfamily \label{class_adjacency_matrix_graph_a8e5b8bcf1a44ddf7fa258e030365ecf2} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_matrix_graph}{Adjacency\+Matrix\+Graph}}$<$ T $>$\+::remove\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Видаляє вершину з графа 
+
+
+
+Implements \mbox{\hyperlink{class_graph_a23d614e6ecb00c6e01d6d29607c91906}{Graph$<$ T $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{matrix_8h}{matrix.\+h}}\end{DoxyCompactItemize}

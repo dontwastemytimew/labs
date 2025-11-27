@@ -1,0 +1,29 @@
+\doxysection{graph.\+h}
+\hypertarget{graph_8h_source}{}\label{graph_8h_source}\index{src/graph.h@{src/graph.h}}
+\mbox{\hyperlink{graph_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRAPH\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRAPH\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_graph}{Graph}}\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_graph_a2ccc82f656fb8cd443feef0add6e32a1}{\string~Graph}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_a59d1ebaa3be8d657385cd9529c71e6a1}{addVertex}}(\textcolor{keyword}{const}\ T\&\ v)\ =\ 0;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_a23d614e6ecb00c6e01d6d29607c91906}{removeVertex}}(\textcolor{keyword}{const}\ T\&\ v)\ =\ 0;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_ab615d23b1f9f314fe1ccd395a209b0c3}{addEdge}}(\textcolor{keyword}{const}\ T\&\ v1,\ \textcolor{keyword}{const}\ T\&\ v2,\ \textcolor{keywordtype}{double}\ weight\ =\ 1.0)\ =\ 0;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_a81d762ef70a746464f8eae250f526916}{removeEdge}}(\textcolor{keyword}{const}\ T\&\ v1,\ \textcolor{keyword}{const}\ T\&\ v2)\ =\ 0;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_graph_ac67bb38bcbdb4aa53c0aa0a946c3b2bd}{isConnected}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_graph_a41eedf787fa832e7c99d1ca290b74705}{distance}}(\textcolor{keyword}{const}\ T\&\ v1,\ \textcolor{keyword}{const}\ T\&\ v2)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//GRAPH\_H}}
+
+\end{DoxyCode}

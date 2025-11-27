@@ -1,0 +1,103 @@
+\doxysection{vehicle.\+h}
+\hypertarget{vehicle_8h_source}{}\label{vehicle_8h_source}\index{src/vehicle.h@{src/vehicle.h}}
+\mbox{\hyperlink{vehicle_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VEHICLE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VEHICLE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{VehicleType}}\ \{\ Land,\ Water,\ Air\ \};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{VehicleType}}\ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}};\ \ \ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}};\ \ \ \ \ \ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}()\ :\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}(\textcolor{stringliteral}{"{}Transport"{}}),\ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}(\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{VehicleType}}::Land),\ \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}}(1.0)\ \{\}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{class_base_vehicle_af171f6826279ca8c237de43d70396a37}{BaseVehicle}}(\textcolor{keywordtype}{string}\ n,\ \mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{VehicleType}}\ t,\ \textcolor{keywordtype}{double}\ w)\ :\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}(n),\ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}(t),\ \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}}(w)\ \{\}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_base_vehicle}{\string~BaseVehicle}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_base_vehicle_a3ba8f9393dbf887ab8a13e1577b8f07b}{getWeight}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}};\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_base_vehicle_a5b39849d220306667cbe2e7c4fd49abb}{getName}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}};\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{VehicleType}}\ \mbox{\hyperlink{class_base_vehicle_ac80fc225b9fc1c9a91c8a4abae9f2a02}{getType}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}};\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_base_vehicle_a6bf91e6efd9f5578b380662c50ff17f5}{toString}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ t\ =\ (\mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}\ ==\ VehicleType::Land\ ?\ \textcolor{stringliteral}{"{}Land"{}}\ :}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}\ ==\ VehicleType::Water\ ?\ \textcolor{stringliteral}{"{}Water"{}}\ :\ \textcolor{stringliteral}{"{}Air"{}});}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}\ +\ \textcolor{stringliteral}{"{}\ ("{}}\ +\ t\ +\ \textcolor{stringliteral}{"{},\ weight="{}}\ +\ to\_string(\mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}})\ +\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_base_vehicle_aa4019c670aa815ddc2f6c95c9e1ad1a4}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}\&\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}\ ==\ other.\mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}\ \&\&\ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}\ ==\ other.\mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}\ \&\&\ \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}}\ ==\ other.\mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}};}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_base_vehicle_a38870de2f6e219922de5812cc666bb2e}{operator<}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}\&\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}\ !=\ other.\mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}})\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}}\ <\ other.\mbox{\hyperlink{class_base_vehicle_a867c44cb006d85e41243d28a68defe21}{name}};}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}\ !=\ other.\mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}})\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}}\ <\ other.\mbox{\hyperlink{class_base_vehicle_adb79beca48a8a48221e6e2ef457aaa24}{type}};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}}\ <\ other.\mbox{\hyperlink{class_base_vehicle_ac22718c1912663593d3ea9d06df3876a}{weight}};}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{class\ }LandVehicle\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}\ \{}
+\DoxyCodeLine{00101\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00102\ \ \ \ \ LandVehicle()\ :\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}()\ \{\}}
+\DoxyCodeLine{00103\ \ \ \ \ LandVehicle(\textcolor{keywordtype}{string}\ n,\ \textcolor{keywordtype}{double}\ s)\ :\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}(n,\ VehicleType::Land,\ s)\ \{\}}
+\DoxyCodeLine{00104\ \};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00109\ \textcolor{keyword}{class\ }WaterVehicle\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}\ \{}
+\DoxyCodeLine{00110\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00111\ \ \ \ \ WaterVehicle()\ :\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}()\ \{\}}
+\DoxyCodeLine{00112\ \ \ \ \ WaterVehicle(\textcolor{keywordtype}{string}\ n,\ \textcolor{keywordtype}{double}\ s)\ :\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}(n,\ VehicleType::Water,\ s)\ \{\}}
+\DoxyCodeLine{00113\ \};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{class\ }AirVehicle\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}\ \{}
+\DoxyCodeLine{00119\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00120\ \ \ \ \ AirVehicle()\ :\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}()\ \{\}}
+\DoxyCodeLine{00121\ \ \ \ \ AirVehicle(\textcolor{keywordtype}{string}\ n,\ \textcolor{keywordtype}{double}\ s)\ :\ \mbox{\hyperlink{class_base_vehicle_a2e86033c4583d7d459d4e950ef1e1cdf}{BaseVehicle}}(n,\ VehicleType::Air,\ s)\ \{\}}
+\DoxyCodeLine{00122\ \};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{class\ }Car\ :\ \textcolor{keyword}{public}\ LandVehicle\ \{}
+\DoxyCodeLine{00128\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00129\ \ \ \ \ Car(std::string\ n\ =\ \textcolor{stringliteral}{"{}Car"{}},\ \textcolor{keywordtype}{double}\ s\ =\ 2.0)\ :\ LandVehicle(n,\ s)\ \{\}}
+\DoxyCodeLine{00130\ \};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00135\ \textcolor{keyword}{class\ }Truck\ :\ \textcolor{keyword}{public}\ LandVehicle\ \{}
+\DoxyCodeLine{00136\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00137\ \ \ \ \ Truck(std::string\ n\ =\ \textcolor{stringliteral}{"{}Truck"{}},\ \textcolor{keywordtype}{double}\ s\ =\ 1.5)\ :\ LandVehicle(n,\ s)\ \{\}}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{class\ }SailBoat\ :\ \textcolor{keyword}{public}\ WaterVehicle\ \{}
+\DoxyCodeLine{00144\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00145\ \ \ \ \ SailBoat(std::string\ n\ =\ \textcolor{stringliteral}{"{}SailBoat"{}},\ \textcolor{keywordtype}{double}\ s\ =\ 1.0)\ :\ WaterVehicle(n,\ s)\ \{\}}
+\DoxyCodeLine{00146\ \};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{class\ }MotorBoat\ :\ \textcolor{keyword}{public}\ WaterVehicle\ \{}
+\DoxyCodeLine{00152\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00153\ \ \ \ \ MotorBoat(std::string\ n\ =\ \textcolor{stringliteral}{"{}MotorBoat"{}},\ \textcolor{keywordtype}{double}\ s\ =\ 3.0)\ :\ WaterVehicle(n,\ s)\ \{\}}
+\DoxyCodeLine{00154\ \};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00159\ \textcolor{keyword}{class\ }Plane\ :\ \textcolor{keyword}{public}\ AirVehicle\ \{}
+\DoxyCodeLine{00160\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00161\ \ \ \ \ Plane(std::string\ n\ =\ \textcolor{stringliteral}{"{}Plane"{}},\ \textcolor{keywordtype}{double}\ s\ =\ 5.0)\ :\ AirVehicle(n,\ s)\ \{\}}
+\DoxyCodeLine{00162\ \};}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00167\ \textcolor{keyword}{class\ }Helicopter\ :\ \textcolor{keyword}{public}\ AirVehicle\ \{}
+\DoxyCodeLine{00168\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00169\ \ \ \ \ Helicopter(std::string\ n\ =\ \textcolor{stringliteral}{"{}Helicopter"{}},\ \textcolor{keywordtype}{double}\ s\ =\ 4.0)\ :\ AirVehicle(n,\ s)\ \{\}}
+\DoxyCodeLine{00170\ \};}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,285 @@
+\doxysection{Adjacency\+List\+Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_adjacency_list_graph}{}\label{class_adjacency_list_graph}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+
+
+Реалізація графа зі списком суміжності.  
+
+
+
+
+{\ttfamily \#include $<$adjlist.\+h$>$}
+
+Inheritance diagram for Adjacency\+List\+Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_adjacency_list_graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_adjacency_list_graph_aae9c58d819d1f104c7c7a594da658354}{Adjacency\+List\+Graph}} (bool \mbox{\hyperlink{class_adjacency_list_graph_a31328ccf135bbb7ba0eb11930dbf391b}{is\+Directed}}=false)
+\begin{DoxyCompactList}\small\item\em Конструктор \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_adjacency_list_graph_a31328ccf135bbb7ba0eb11930dbf391b}{is\+Directed}} () const
+\begin{DoxyCompactList}\small\item\em Перевірка, чи граф орієнтований \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_list_graph_a7087f39c89f26fcab87aefc781608140}{add\+Vertex}} (const T \&v) override
+\begin{DoxyCompactList}\small\item\em Додає вершину до графа \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_list_graph_a5c3f20bb776b8bffc96b788206d43b26}{remove\+Vertex}} (const T \&v)
+\begin{DoxyCompactList}\small\item\em Видаляє вершину з графа \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_list_graph_a104c663d2580ada11b535b3d65adb188}{add\+Edge}} (const T \&v1, const T \&v2, double weight=1.\+0) override
+\begin{DoxyCompactList}\small\item\em Додає ребро між вершинами \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_list_graph_addad3750a2944df2ba52e82d5d8c00d8}{remove\+Edge}} (const T \&v1, const T \&v2) override
+\begin{DoxyCompactList}\small\item\em Видаляє ребро між вершинами \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_adjacency_list_graph_aaa60fefeff94c1ddce6a1a5ceb723df7}{is\+Connected}} () const override
+\begin{DoxyCompactList}\small\item\em Перевіряє, чи граф зв\textquotesingle{}язний \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_adjacency_list_graph_ae0e053c47f662cc48c9b1a6a1989e8bb}{distance}} (const T \&v1, const T \&v2) const override
+\begin{DoxyCompactList}\small\item\em Обчислює відстань між вершинами за допомогою Dijkstra. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_adjacency_list_graph_ac5b772d9229f1d76fa05d3589f4292e1}{generate\+Random}} (int num\+Vertices, int max\+Edges\+Per\+Vertex, double max\+Weight=10.\+0, const T \&prototype\+Vertex=T())
+\begin{DoxyCompactList}\small\item\em Генерує граф випадковими вершинами та ребрами \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_list_graph_a4f89bf1775aaaad7dd525c07de46d238}\label{class_adjacency_list_graph_a4f89bf1775aaaad7dd525c07de46d238} 
+void {\bfseries print\+Graph} () const
+\begin{DoxyCompactList}\small\item\em Виводить граф на консоль \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_list_graph_ac77fe37a275e85d66703a8d7e2ab1bd2}\label{class_adjacency_list_graph_ac77fe37a275e85d66703a8d7e2ab1bd2} 
+string {\bfseries to\+String} () const
+\begin{DoxyCompactList}\small\item\em Повертає текстове представлення графа \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_list_graph_a51324a44c04112e486b3bb9c242d21f6}\label{class_adjacency_list_graph_a51324a44c04112e486b3bb9c242d21f6} 
+const vector$<$ pair$<$ int, double $>$ $>$ \& {\bfseries get\+Adj} (int idx) const
+\begin{DoxyCompactList}\small\item\em Повертає список суміжності вершини \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_list_graph_a6c7782f220f4e7fe518147e8fc3b0b09}\label{class_adjacency_list_graph_a6c7782f220f4e7fe518147e8fc3b0b09} 
+int {\bfseries graph\+Size} () const
+\begin{DoxyCompactList}\small\item\em Повертає кількість вершин \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_list_graph_a9f9a718f608b4b702450bea2f8492d8b}\label{class_adjacency_list_graph_a9f9a718f608b4b702450bea2f8492d8b} 
+int {\bfseries get\+Vertex\+Index} (const T \&v) const
+\begin{DoxyCompactList}\small\item\em Повертає індекс вершини \end{DoxyCompactList}\item 
+\Hypertarget{class_adjacency_list_graph_a1e61a1c2a08b94ac9fa095171464f23b}\label{class_adjacency_list_graph_a1e61a1c2a08b94ac9fa095171464f23b} 
+T {\bfseries get\+Vertex} (int idx) const
+\begin{DoxyCompactList}\small\item\em Повертає вершину за індексом \end{DoxyCompactList}\item 
+vector$<$ pair$<$ T, T $>$ $>$ \mbox{\hyperlink{class_adjacency_list_graph_a4badad55a35800450c6d77241349ed32}{prim\+MST}} () const
+\begin{DoxyCompactList}\small\item\em Алгоритм Пріма для мінімального кістякового дерева \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_graph}{Graph$<$ T $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_graph_a2ccc82f656fb8cd443feef0add6e32a1}{\texorpdfstring{$\sim$}{\string~}\+Graph}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Adjacency\+List\+Graph$<$ T $>$}
+Реалізація графа зі списком суміжності. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & тип вершини графа \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{class_adjacency_list_graph_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_adjacency_list_graph_aae9c58d819d1f104c7c7a594da658354}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!AdjacencyListGraph@{AdjacencyListGraph}}
+\index{AdjacencyListGraph@{AdjacencyListGraph}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{AdjacencyListGraph()}{AdjacencyListGraph()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_aae9c58d819d1f104c7c7a594da658354} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\mbox{\hyperlink{class_adjacency_list_graph}{\+::\+Adjacency\+List\+Graph}} (\begin{DoxyParamCaption}\item[{bool}]{is\+Directed}{ = {\ttfamily false}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Конструктор 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Directed} & чи орієнтований граф \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_adjacency_list_graph_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_adjacency_list_graph_a104c663d2580ada11b535b3d65adb188}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_a104c663d2580ada11b535b3d65adb188} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::add\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{, }\item[{double}]{weight}{ = {\ttfamily 1.0}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Додає ребро між вершинами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & початкова вершина \\
+\hline
+{\em v2} & кінцева вершина \\
+\hline
+{\em weight} & вага ребра \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graph_ab615d23b1f9f314fe1ccd395a209b0c3}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_list_graph_a7087f39c89f26fcab87aefc781608140}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_a7087f39c89f26fcab87aefc781608140} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::add\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Додає вершину до графа 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & вершина \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graph_a59d1ebaa3be8d657385cd9529c71e6a1}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_list_graph_ae0e053c47f662cc48c9b1a6a1989e8bb}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!distance@{distance}}
+\index{distance@{distance}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{distance()}{distance()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_ae0e053c47f662cc48c9b1a6a1989e8bb} 
+template$<$typename T$>$ \\
+double \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::distance (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Обчислює відстань між вершинами за допомогою Dijkstra. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & початкова вершина \\
+\hline
+{\em v2} & кінцева вершина \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double відстань або -\/1 якщо шляху немає 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_graph_a41eedf787fa832e7c99d1ca290b74705}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_list_graph_ac5b772d9229f1d76fa05d3589f4292e1}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!generateRandom@{generateRandom}}
+\index{generateRandom@{generateRandom}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{generateRandom()}{generateRandom()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_ac5b772d9229f1d76fa05d3589f4292e1} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::generate\+Random (\begin{DoxyParamCaption}\item[{int}]{num\+Vertices}{, }\item[{int}]{max\+Edges\+Per\+Vertex}{, }\item[{double}]{max\+Weight}{ = {\ttfamily 10.0}, }\item[{const T \&}]{prototype\+Vertex}{ = {\ttfamily T()}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Генерує граф випадковими вершинами та ребрами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Vertices} & кількість вершин \\
+\hline
+{\em max\+Edges\+Per\+Vertex} & максимальна кількість ребер на вершину \\
+\hline
+{\em max\+Weight} & максимальна вага ребра \\
+\hline
+{\em prototype\+Vertex} & прототип вершини (значення) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_adjacency_list_graph_aaa60fefeff94c1ddce6a1a5ceb723df7}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!isConnected@{isConnected}}
+\index{isConnected@{isConnected}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isConnected()}{isConnected()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_aaa60fefeff94c1ddce6a1a5ceb723df7} 
+template$<$typename T$>$ \\
+bool \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::is\+Connected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Перевіряє, чи граф зв\textquotesingle{}язний 
+
+\begin{DoxyReturn}{Returns}
+true якщо всі вершини досяжні 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_graph_ac67bb38bcbdb4aa53c0aa0a946c3b2bd}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_list_graph_a31328ccf135bbb7ba0eb11930dbf391b}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!isDirected@{isDirected}}
+\index{isDirected@{isDirected}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isDirected()}{isDirected()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_a31328ccf135bbb7ba0eb11930dbf391b} 
+template$<$typename T$>$ \\
+bool \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::is\+Directed (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Перевірка, чи граф орієнтований 
+
+\begin{DoxyReturn}{Returns}
+true якщо орієнтований 
+\end{DoxyReturn}
+\Hypertarget{class_adjacency_list_graph_a4badad55a35800450c6d77241349ed32}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!primMST@{primMST}}
+\index{primMST@{primMST}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{primMST()}{primMST()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_a4badad55a35800450c6d77241349ed32} 
+template$<$typename T$>$ \\
+vector$<$ pair$<$ T, T $>$ $>$ \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::prim\+MST (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Алгоритм Пріма для мінімального кістякового дерева 
+
+\begin{DoxyReturn}{Returns}
+список ребер MST 
+\end{DoxyReturn}
+\Hypertarget{class_adjacency_list_graph_addad3750a2944df2ba52e82d5d8c00d8}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!removeEdge@{removeEdge}}
+\index{removeEdge@{removeEdge}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{removeEdge()}{removeEdge()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_addad3750a2944df2ba52e82d5d8c00d8} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::remove\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Видаляє ребро між вершинами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & початкова вершина \\
+\hline
+{\em v2} & кінцева вершина \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graph_a81d762ef70a746464f8eae250f526916}{Graph$<$ T $>$}}.
+
+\Hypertarget{class_adjacency_list_graph_a5c3f20bb776b8bffc96b788206d43b26}\index{AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}!removeVertex@{removeVertex}}
+\index{removeVertex@{removeVertex}!AdjacencyListGraph$<$ T $>$@{AdjacencyListGraph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{removeVertex()}{removeVertex()}}
+{\footnotesize\ttfamily \label{class_adjacency_list_graph_a5c3f20bb776b8bffc96b788206d43b26} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_adjacency_list_graph}{Adjacency\+List\+Graph}}$<$ T $>$\+::remove\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Видаляє вершину з графа 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & вершина \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graph_a23d614e6ecb00c6e01d6d29607c91906}{Graph$<$ T $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{adjlist_8h}{adjlist.\+h}}\end{DoxyCompactItemize}

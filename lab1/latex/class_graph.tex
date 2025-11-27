@@ -1,0 +1,197 @@
+\doxysection{Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_graph}{}\label{class_graph}\index{Graph$<$ T $>$@{Graph$<$ T $>$}}
+
+
+Абстрактний базовий клас графа.  
+
+
+
+
+{\ttfamily \#include $<$graph.\+h$>$}
+
+Inheritance diagram for Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_graph_a2ccc82f656fb8cd443feef0add6e32a1}{\texorpdfstring{$\sim$}{\string~}\+Graph}} ()=default
+\item 
+virtual void \mbox{\hyperlink{class_graph_a59d1ebaa3be8d657385cd9529c71e6a1}{add\+Vertex}} (const T \&v)=0
+\begin{DoxyCompactList}\small\item\em Додає вершину у граф. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_graph_a23d614e6ecb00c6e01d6d29607c91906}{remove\+Vertex}} (const T \&v)=0
+\begin{DoxyCompactList}\small\item\em Видаляє вершину з графа. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_graph_ab615d23b1f9f314fe1ccd395a209b0c3}{add\+Edge}} (const T \&v1, const T \&v2, double weight=1.\+0)=0
+\begin{DoxyCompactList}\small\item\em Додає ребро між вершинами з вказаною вагою. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_graph_a81d762ef70a746464f8eae250f526916}{remove\+Edge}} (const T \&v1, const T \&v2)=0
+\begin{DoxyCompactList}\small\item\em Видаляє ребро між вершинами. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_graph_ac67bb38bcbdb4aa53c0aa0a946c3b2bd}{is\+Connected}} () const =0
+\begin{DoxyCompactList}\small\item\em Перевіряє, чи граф зв’язний. \end{DoxyCompactList}\item 
+virtual double \mbox{\hyperlink{class_graph_a41eedf787fa832e7c99d1ca290b74705}{distance}} (const T \&v1, const T \&v2) const =0
+\begin{DoxyCompactList}\small\item\em Обчислює відстань між двома вершинами. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Graph$<$ T $>$}
+Абстрактний базовий клас графа. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & тип вершини графа \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{class_graph_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_graph_a2ccc82f656fb8cd443feef0add6e32a1}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!````~Graph@{\texorpdfstring{$\sim$}{\string~}Graph}}
+\index{````~Graph@{\texorpdfstring{$\sim$}{\string~}Graph}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Graph()}{\string~Graph()}}
+{\footnotesize\ttfamily \label{class_graph_a2ccc82f656fb8cd443feef0add6e32a1} 
+template$<$typename T$>$ \\
+virtual \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::\texorpdfstring{$\sim$}{\string~}\mbox{\hyperlink{class_graph}{Graph}} (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+Віртуальний деструктор 
+
+\label{doc-func-members}
+\Hypertarget{class_graph_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_graph_ab615d23b1f9f314fe1ccd395a209b0c3}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily \label{class_graph_ab615d23b1f9f314fe1ccd395a209b0c3} 
+template$<$typename T$>$ \\
+virtual void \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::add\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{, }\item[{double}]{weight}{ = {\ttfamily 1.0}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Додає ребро між вершинами з вказаною вагою. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & Початкова вершина. \\
+\hline
+{\em v2} & Кінцева вершина. \\
+\hline
+{\em weight} & Вага ребра (за замовчуванням 1.\+0). \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_adjacency_list_graph_a104c663d2580ada11b535b3d65adb188}{Adjacency\+List\+Graph$<$ T $>$}}, and \mbox{\hyperlink{class_adjacency_matrix_graph_aaf1a9020a9caba10cbbdd5e4eba6f694}{Adjacency\+Matrix\+Graph$<$ T $>$}}.
+
+\Hypertarget{class_graph_a59d1ebaa3be8d657385cd9529c71e6a1}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}}
+{\footnotesize\ttfamily \label{class_graph_a59d1ebaa3be8d657385cd9529c71e6a1} 
+template$<$typename T$>$ \\
+virtual void \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::add\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Додає вершину у граф. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Вершина для додавання. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_adjacency_list_graph_a7087f39c89f26fcab87aefc781608140}{Adjacency\+List\+Graph$<$ T $>$}}, and \mbox{\hyperlink{class_adjacency_matrix_graph_adab27dc461df267ea6dbcf31b1a3e3a0}{Adjacency\+Matrix\+Graph$<$ T $>$}}.
+
+\Hypertarget{class_graph_a41eedf787fa832e7c99d1ca290b74705}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!distance@{distance}}
+\index{distance@{distance}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{distance()}{distance()}}
+{\footnotesize\ttfamily \label{class_graph_a41eedf787fa832e7c99d1ca290b74705} 
+template$<$typename T$>$ \\
+virtual double \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::distance (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Обчислює відстань між двома вершинами. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & Початкова вершина. \\
+\hline
+{\em v2} & Кінцева вершина. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Вага шляху між вершинами, або -\/1 якщо шляху немає. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_adjacency_list_graph_ae0e053c47f662cc48c9b1a6a1989e8bb}{Adjacency\+List\+Graph$<$ T $>$}}, and \mbox{\hyperlink{class_adjacency_matrix_graph_a0c5163042fa5d90132bb2d32a04b6273}{Adjacency\+Matrix\+Graph$<$ T $>$}}.
+
+\Hypertarget{class_graph_ac67bb38bcbdb4aa53c0aa0a946c3b2bd}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!isConnected@{isConnected}}
+\index{isConnected@{isConnected}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isConnected()}{isConnected()}}
+{\footnotesize\ttfamily \label{class_graph_ac67bb38bcbdb4aa53c0aa0a946c3b2bd} 
+template$<$typename T$>$ \\
+virtual bool \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::is\+Connected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Перевіряє, чи граф зв’язний. 
+
+\begin{DoxyReturn}{Returns}
+true якщо граф зв’язний, false інакше. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_adjacency_list_graph_aaa60fefeff94c1ddce6a1a5ceb723df7}{Adjacency\+List\+Graph$<$ T $>$}}, and \mbox{\hyperlink{class_adjacency_matrix_graph_ab7661cffd6a608f24070907761ab02b9}{Adjacency\+Matrix\+Graph$<$ T $>$}}.
+
+\Hypertarget{class_graph_a81d762ef70a746464f8eae250f526916}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!removeEdge@{removeEdge}}
+\index{removeEdge@{removeEdge}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{removeEdge()}{removeEdge()}}
+{\footnotesize\ttfamily \label{class_graph_a81d762ef70a746464f8eae250f526916} 
+template$<$typename T$>$ \\
+virtual void \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::remove\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{v1}{, }\item[{const T \&}]{v2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Видаляє ребро між вершинами. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & Початкова вершина. \\
+\hline
+{\em v2} & Кінцева вершина. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_adjacency_list_graph_addad3750a2944df2ba52e82d5d8c00d8}{Adjacency\+List\+Graph$<$ T $>$}}, and \mbox{\hyperlink{class_adjacency_matrix_graph_af87c405284cbf50cd30f4dfbe78c2268}{Adjacency\+Matrix\+Graph$<$ T $>$}}.
+
+\Hypertarget{class_graph_a23d614e6ecb00c6e01d6d29607c91906}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!removeVertex@{removeVertex}}
+\index{removeVertex@{removeVertex}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{removeVertex()}{removeVertex()}}
+{\footnotesize\ttfamily \label{class_graph_a23d614e6ecb00c6e01d6d29607c91906} 
+template$<$typename T$>$ \\
+virtual void \mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$\+::remove\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Видаляє вершину з графа. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Вершина для видалення. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_adjacency_list_graph_a5c3f20bb776b8bffc96b788206d43b26}{Adjacency\+List\+Graph$<$ T $>$}}, and \mbox{\hyperlink{class_adjacency_matrix_graph_a8e5b8bcf1a44ddf7fa258e030365ecf2}{Adjacency\+Matrix\+Graph$<$ T $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{graph_8h}{graph.\+h}}\end{DoxyCompactItemize}

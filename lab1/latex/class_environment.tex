@@ -1,0 +1,186 @@
+\doxysection{Environment\texorpdfstring{$<$}{<} Graph\+Type, VertexT \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_environment}{}\label{class_environment}\index{Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}}
+
+
+Клас середовища, яке об’єднує граф і транспортні засоби.  
+
+
+
+
+{\ttfamily \#include $<$environment.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_environment_a2646492c604d39d904d760ff37fbc137}\label{class_environment_a2646492c604d39d904d760ff37fbc137} 
+{\bfseries Environment} (const Graph\+Type \&g)
+\item 
+\Hypertarget{class_environment_abb0c2225a60f403c07fd24c08a1d02f8}\label{class_environment_abb0c2225a60f403c07fd24c08a1d02f8} 
+void {\bfseries add\+Point} (const VertexT \&point)
+\begin{DoxyCompactList}\small\item\em Додати вершину (пункт) у граф \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_environment_aec771a6aa43aa10edc2ab8ecb8b85e04}{add\+Path}} (const VertexT \&from, const VertexT \&to, double distance, \mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}} type)
+\begin{DoxyCompactList}\small\item\em Додати ребро (дорогу) між вершинами \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_environment_a153dec11340ec29d523c244a603a4647}{add\+Vehicle}} (const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&vehicle, const VertexT \&start\+Position)
+\begin{DoxyCompactList}\small\item\em Додати транспортний засіб до середовища \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_a57505fbe634511a2360cf7174d97ae17}\label{class_environment_a57505fbe634511a2360cf7174d97ae17} 
+void {\bfseries show\+Vehicles} () const
+\begin{DoxyCompactList}\small\item\em Вивести інформацію про всі транспортні засоби у середовищі \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_environment_adb0b427d0bbbecfdfccf9cc7a94be247}{can\+Move}} (int vehicle\+Index, const VertexT \&from, const VertexT \&to) const
+\begin{DoxyCompactList}\small\item\em Перевіряє, чи транспортний засіб може рухатися між двома вершинами \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_environment_a2bf4f42af0d38c2383cf9782aa72209e}{move\+Vehicle}} (int vehicle\+Index, const VertexT \&destination, bool simulate=false, int delay\+Ms=500)
+\begin{DoxyCompactList}\small\item\em Рух транспортного засобу до вершини \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_environment_acd3eb30f6f9ce680650d4d848940834f}{simulate\+Route}} (int vehicle\+Index, const vector$<$ VertexT $>$ \&route, int delay\+Ms=500)
+\begin{DoxyCompactList}\small\item\em Імітація маршруту для транспортного засобу \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_afc9b9a840ac0236dd36f8c9f3adab7e5}\label{class_environment_afc9b9a840ac0236dd36f8c9f3adab7e5} 
+vector$<$ VertexT $>$ {\bfseries compute\+Optimal\+Route} (int vehicle\+Index, const VertexT \&from, const VertexT \&to) const
+\begin{DoxyCompactList}\small\item\em Обчислити оптимальний маршрут між двома вершинами для транспортного засобу \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_a93f5c0d42d27d6eb44dab98e57bb9a4c}\label{class_environment_a93f5c0d42d27d6eb44dab98e57bb9a4c} 
+string {\bfseries graph\+To\+String} () const
+\begin{DoxyCompactList}\small\item\em Повертає текстове представлення графа \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_ab117e4d2858734755f945b19392670e7}\label{class_environment_ab117e4d2858734755f945b19392670e7} 
+string {\bfseries roads\+To\+String} () const
+\begin{DoxyCompactList}\small\item\em Повертає всі дороги у вигляді тексту \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_a1fc2303d93a964c41115c3cdaf6c2537}\label{class_environment_a1fc2303d93a964c41115c3cdaf6c2537} 
+VertexT {\bfseries get\+Vehicle\+Position} (int vehicle\+Index) const
+\begin{DoxyCompactList}\small\item\em Повертає поточну позицію транспортного засобу \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_a908a6f30ff50672fd9ffe1b526f16dd8}\label{class_environment_a908a6f30ff50672fd9ffe1b526f16dd8} 
+void {\bfseries load\+Graph\+From\+File} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Зчитування графа з CSV файлу \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_a1a5b8dc809801f5160ae0a3ae91b4ba3}\label{class_environment_a1a5b8dc809801f5160ae0a3ae91b4ba3} 
+void {\bfseries load\+Vehicles\+From\+File} (const string \&filename)
+\begin{DoxyCompactList}\small\item\em Зчитування транспортних засобів з CSV файлу \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_ac11dc0cf58e59f3b227fb6f3ece98b85}\label{class_environment_ac11dc0cf58e59f3b227fb6f3ece98b85} 
+void {\bfseries save\+Graph\+To\+File} (const string \&filename) const
+\begin{DoxyCompactList}\small\item\em Збереження графа у CSV файл \end{DoxyCompactList}\item 
+\Hypertarget{class_environment_a5ff98402669be400c3afd37eef9aba0d}\label{class_environment_a5ff98402669be400c3afd37eef9aba0d} 
+void {\bfseries save\+Vehicles\+To\+File} (const string \&filename) const
+\begin{DoxyCompactList}\small\item\em Збереження транспортних засобів у CSV файл \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Graph\+Type, typename VertexT$>$\newline
+class Environment$<$ Graph\+Type, Vertex\+T $>$}
+Клас середовища, яке об’єднує граф і транспортні засоби. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Graph\+Type} & Тип графа (Adjacency List/\+Matrix) \\
+\hline
+{\em VertexT} & Тип вершин графа (наприклад, std\+::string) \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_environment_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_environment_aec771a6aa43aa10edc2ab8ecb8b85e04}\index{Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}!addPath@{addPath}}
+\index{addPath@{addPath}!Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}}
+\doxysubsubsection{\texorpdfstring{addPath()}{addPath()}}
+{\footnotesize\ttfamily \label{class_environment_aec771a6aa43aa10edc2ab8ecb8b85e04} 
+template$<$typename Graph\+Type, typename VertexT$>$ \\
+void \mbox{\hyperlink{class_environment}{Environment}}$<$ Graph\+Type, VertexT $>$\+::add\+Path (\begin{DoxyParamCaption}\item[{const VertexT \&}]{from}{, }\item[{const VertexT \&}]{to}{, }\item[{double}]{distance}{, }\item[{\mbox{\hyperlink{vehicle_8h_a0c05c42b98a847f971385c81c2a81afa}{Vehicle\+Type}}}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Додати ребро (дорогу) між вершинами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & Початкова вершина \\
+\hline
+{\em to} & Кінцева вершина \\
+\hline
+{\em distance} & Відстань або вага \\
+\hline
+{\em type} & Тип транспортного засобу, який може рухатися \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_environment_a153dec11340ec29d523c244a603a4647}\index{Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}!addVehicle@{addVehicle}}
+\index{addVehicle@{addVehicle}!Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}}
+\doxysubsubsection{\texorpdfstring{addVehicle()}{addVehicle()}}
+{\footnotesize\ttfamily \label{class_environment_a153dec11340ec29d523c244a603a4647} 
+template$<$typename Graph\+Type, typename VertexT$>$ \\
+void \mbox{\hyperlink{class_environment}{Environment}}$<$ Graph\+Type, VertexT $>$\+::add\+Vehicle (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_base_vehicle}{Base\+Vehicle}} \&}]{vehicle}{, }\item[{const VertexT \&}]{start\+Position}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Додати транспортний засіб до середовища 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vehicle} & Транспортний засіб \\
+\hline
+{\em start\+Position} & Початкова позиція у графі \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_environment_adb0b427d0bbbecfdfccf9cc7a94be247}\index{Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}!canMove@{canMove}}
+\index{canMove@{canMove}!Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}}
+\doxysubsubsection{\texorpdfstring{canMove()}{canMove()}}
+{\footnotesize\ttfamily \label{class_environment_adb0b427d0bbbecfdfccf9cc7a94be247} 
+template$<$typename Graph\+Type, typename VertexT$>$ \\
+bool \mbox{\hyperlink{class_environment}{Environment}}$<$ Graph\+Type, VertexT $>$\+::can\+Move (\begin{DoxyParamCaption}\item[{int}]{vehicle\+Index}{, }\item[{const VertexT \&}]{from}{, }\item[{const VertexT \&}]{to}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Перевіряє, чи транспортний засіб може рухатися між двома вершинами 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vehicle\+Index} & Індекс транспортного засобу \\
+\hline
+{\em from} & Початкова вершина \\
+\hline
+{\em to} & Кінцева вершина \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, якщо можна рухатися 
+\end{DoxyReturn}
+\Hypertarget{class_environment_a2bf4f42af0d38c2383cf9782aa72209e}\index{Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}!moveVehicle@{moveVehicle}}
+\index{moveVehicle@{moveVehicle}!Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}}
+\doxysubsubsection{\texorpdfstring{moveVehicle()}{moveVehicle()}}
+{\footnotesize\ttfamily \label{class_environment_a2bf4f42af0d38c2383cf9782aa72209e} 
+template$<$typename Graph\+Type, typename VertexT$>$ \\
+void \mbox{\hyperlink{class_environment}{Environment}}$<$ Graph\+Type, VertexT $>$\+::move\+Vehicle (\begin{DoxyParamCaption}\item[{int}]{vehicle\+Index}{, }\item[{const VertexT \&}]{destination}{, }\item[{bool}]{simulate}{ = {\ttfamily false}, }\item[{int}]{delay\+Ms}{ = {\ttfamily 500}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Рух транспортного засобу до вершини 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vehicle\+Index} & Індекс транспортного засобу \\
+\hline
+{\em destination} & Кінцева вершина \\
+\hline
+{\em simulate} & Якщо true, додає затримку для імітації руху \\
+\hline
+{\em delay\+Ms} & Затримка у мілісекундах \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_environment_acd3eb30f6f9ce680650d4d848940834f}\index{Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}!simulateRoute@{simulateRoute}}
+\index{simulateRoute@{simulateRoute}!Environment$<$ GraphType, VertexT $>$@{Environment$<$ GraphType, VertexT $>$}}
+\doxysubsubsection{\texorpdfstring{simulateRoute()}{simulateRoute()}}
+{\footnotesize\ttfamily \label{class_environment_acd3eb30f6f9ce680650d4d848940834f} 
+template$<$typename Graph\+Type, typename VertexT$>$ \\
+void \mbox{\hyperlink{class_environment}{Environment}}$<$ Graph\+Type, VertexT $>$\+::simulate\+Route (\begin{DoxyParamCaption}\item[{int}]{vehicle\+Index}{, }\item[{const vector$<$ VertexT $>$ \&}]{route}{, }\item[{int}]{delay\+Ms}{ = {\ttfamily 500}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Імітація маршруту для транспортного засобу 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vehicle\+Index} & Індекс транспортного засобу \\
+\hline
+{\em route} & Послідовність вершин маршруту \\
+\hline
+{\em delay\+Ms} & Затримка між кроками \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{environment_8h}{environment.\+h}}\end{DoxyCompactItemize}

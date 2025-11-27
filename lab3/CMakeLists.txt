@@ -10,28 +10,35 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 COMPONENTS Core Gui Widgets Svg LinguistTools PrintSupport REQUIRED)
 
-add_library(QCustomPlotLib STATIC qcustomplot.cpp qcustomplot.h)
+add_library(QCustomPlotLib STATIC libs/qcustomplot.cpp libs/qcustomplot.h)
 target_link_libraries(QCustomPlotLib PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::PrintSupport)
-target_include_directories(QCustomPlotLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(QCustomPlotLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.h mainwindow.cpp mainwindow.ui
-        datamanager.h datamanager.cpp
-        schema.h schema.cpp
-        note.h note.cpp
-        schemamanager.h schemamanager.cpp schemamanager.ui
-        schemaeditor.h schemaeditor.cpp schemaeditor.ui
-        noteeditor.h noteeditor.cpp noteeditor.ui
-        tageditor.h tageditor.cpp tageditor.ui
-        notewidget.h notewidget.cpp notewidget.ui
-        settingsdialog.h settingsdialog.cpp settingsdialog.ui
         resources.qrc
-        logger.cpp logger.h
-        nanobench.h
+        src/core/datamanager.h src/core/datamanager.cpp
+        src/core/schema.h      src/core/schema.cpp
+        src/core/note.h        src/core/note.cpp
+        src/utils/logger.h     src/utils/logger.cpp
+        src/gui/mainwindow.h     src/gui/mainwindow.cpp     src/gui/mainwindow.ui
+        src/gui/settingsdialog.h src/gui/settingsdialog.cpp src/gui/settingsdialog.ui
+        src/gui/schemamanager.h  src/gui/schemamanager.cpp  src/gui/schemamanager.ui
+        src/gui/schemaeditor.h   src/gui/schemaeditor.cpp   src/gui/schemaeditor.ui
+        src/gui/noteeditor.h     src/gui/noteeditor.cpp     src/gui/noteeditor.ui
+        src/gui/tageditor.h      src/gui/tageditor.cpp      src/gui/tageditor.ui
+        src/gui/notewidget.h     src/gui/notewidget.cpp     src/gui/notewidget.ui
+        libs/nanobench.h
 )
 
 add_executable(lab3 ${PROJECT_SOURCES})
+
+target_include_directories(lab3 PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/gui
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
+        ${CMAKE_CURRENT_SOURCE_DIR}/libs
+)
 
 target_link_libraries(lab3
         PRIVATE
@@ -48,10 +55,17 @@ add_executable(lab3_tests
         tests/test_models.h
         tests/test_datamanager.h
         tests/test_io.h
-        datamanager.cpp
-        note.cpp
-        schema.cpp
+
+        src/core/datamanager.cpp
+        src/core/note.cpp
+        src/core/schema.cpp
 )
+
+target_include_directories(lab3_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+        ${CMAKE_CURRENT_SOURCE_DIR}/libs
+)
+
 target_link_libraries(lab3_tests PRIVATE Qt6::Core)
 
 if (WIN32)
@@ -73,7 +87,6 @@ if (WIN32)
             "${QT_PLUGIN_DIR}/platforms/qwindows.dll"
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/"
     )
-
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/imageformats"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -82,33 +95,18 @@ if (WIN32)
     )
 endif()
 
-target_precompile_headers(lab3 PRIVATE
-        <QApplication>
-        <QMainWindow>
-        <QDialog>
-        <QPushButton>
-        <QLabel>
-        <QList>
-        <QVector>
-        <QString>
-        <QFile>
-        <QDebug>
-        <vector>
-        <string>
-        <fstream>
-        "json.hpp"
-        "qcustomplot.h"
-)
-
-target_precompile_headers(lab3_tests PRIVATE
-        <QList>
-        <QString>
-        <QDebug>
-        "json.hpp"
-)
-
 set(TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/i18n/lab3_en_US.ts)
 qt_add_translations(lab3
         QM_FILES_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/i18n"
-        TS_FILES ${TS_FILES})
+        TS_FILES ${TS_FILES}
+        SOURCES ${PROJECT_SOURCES}
+)
 target_sources(lab3 PRIVATE ${lab3_TRANSLATION_FILES})
+
+target_precompile_headers(lab3 PRIVATE
+        <QApplication> <QMainWindow> <QDialog> <QPushButton>
+        <QLabel> <QList> <QVector> <QString> <QFile> <QDebug>
+        <vector> <string> <fstream>
+        "libs/json.hpp"
+        "libs/qcustomplot.h"
+)
