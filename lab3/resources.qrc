@@ -7,6 +7,7 @@
         <file>icons/search.svg</file>
         <file>icons/settings.png</file>
         <file>icons/import.png</file>
+        <file>icons/star.png</file>
     </qresource>
 
     <qresource prefix="/i18n">

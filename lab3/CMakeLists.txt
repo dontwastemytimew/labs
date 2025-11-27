@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
         src/gui/noteeditor.h     src/gui/noteeditor.cpp     src/gui/noteeditor.ui
         src/gui/tageditor.h      src/gui/tageditor.cpp      src/gui/tageditor.ui
         src/gui/notewidget.h     src/gui/notewidget.cpp     src/gui/notewidget.ui
+        src/gui/statisticsdialog.h src/gui/statisticsdialog.cpp src/gui/statisticsdialog.ui
         libs/nanobench.h
 )
 

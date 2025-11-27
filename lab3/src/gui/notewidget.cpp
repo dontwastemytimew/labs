@@ -31,6 +31,18 @@ NoteWidget::NoteWidget(const Note &note, QWidget *parent) :
     } else {
         ui->thumbLabel->hide();
     }
+
+    ui->pinLabel->setFixedWidth(30);
+    ui->pinLabel->setAlignment(Qt::AlignCenter);
+
+    if (note.isPinned()) {
+        ui->pinLabel->setPixmap(QPixmap(":/icons/star.png").scaled(20, 20, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    } else {
+        ui->pinLabel->clear();
+    }
+
+    ui->pinLabel->setAttribute(Qt::WA_TranslucentBackground);
+    ui->pinLabel->show();
 }
 
 NoteWidget::~NoteWidget() {

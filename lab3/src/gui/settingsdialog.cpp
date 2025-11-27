@@ -16,26 +16,29 @@
 
 static QTranslator *appTranslator = nullptr;
 static bool isDarkThemeActive = false;
+static bool isEnglishActive = false;
 
 using nlohmann_json = nlohmann::json;
 
-SettingsDialog::SettingsDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::SettingsDialog)
+SettingsDialog::SettingsDialog(DataManager* dataManager, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::SettingsDialog),
+    m_dataManager(dataManager)
 {
     ui->setupUi(this);
     setWindowTitle(tr("Налаштування"));
+
     ui->tabWidget->setCurrentIndex(0);
 
-    ui->languageComboBox->addItem(tr("Українська"), QVariant("uk_UA"));
-    ui->languageComboBox->addItem(tr("English"), QVariant("en_US"));
 
     ui->languageComboBox->blockSignals(true);
-    int langIdx = appTranslator ? 1 : 0;
-    ui->languageComboBox->setCurrentIndex(langIdx);
+    ui->languageComboBox->addItem(tr("Українська"), QVariant("uk_UA"));
+    ui->languageComboBox->addItem(tr("English"), QVariant("en_US"));
+    ui->languageComboBox->setCurrentIndex(isEnglishActive ? 1 : 0);
     ui->languageComboBox->blockSignals(false);
 
-    ui->themeComboBox->blockSignals(true);
 
+    ui->themeComboBox->blockSignals(true);
     ui->themeComboBox->addItem(tr("Світла"));
     ui->themeComboBox->addItem(tr("Темна"));
     ui->themeComboBox->setCurrentIndex(isDarkThemeActive ? 1 : 0);
@@ -44,16 +47,21 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->plotWidget->xAxis->setLabel(tr("Бібліотека"));
     ui->plotWidget->yAxis->setLabel(tr("Час (мс)"));
     ui->plotWidget->legend->setVisible(true);
+    ui->plotWidget->legend->setBrush(QBrush(QColor(255, 255, 255, 200)));
+    ui->plotWidget->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignRight);
 
     connect(ui->themeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &SettingsDialog::on_themeComboBox_currentIndexChanged);
+
     connect(ui->languageComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &SettingsDialog::on_languageComboBox_currentIndexChanged);
+
+    setupStatisticsChart();
 }
 
 SettingsDialog::~SettingsDialog() {
     delete ui;
-}
+    }
 
 void SettingsDialog::on_runBenchmarkButton_clicked()
 {
@@ -72,7 +80,6 @@ void SettingsDialog::on_runBenchmarkButton_clicked()
     ui->resultLabel->setText(tr("Тест nlohmann..."));
     qApp->processEvents();
 
-    // Тест nlohmann
     QElapsedTimer timer;
     timer.start();
     {
@@ -90,7 +97,6 @@ void SettingsDialog::on_runBenchmarkButton_clicked()
     ui->resultLabel->setText(tr("Тест RapidJSON..."));
     qApp->processEvents();
 
-    // Тест RapidJSON
     timer.restart();
     {
         rapidjson::StringBuffer s;
@@ -141,9 +147,7 @@ void SettingsDialog::plotResults(double nlohmannTime, double rapidJsonTime)
     values << nlohmannTime << rapidJsonTime;
     bars->setData(keys, values);
 
-
     QColor loserColor("#d8bfd8");
-
     QColor winnerColor("#ff1493");
 
     QCPBars *winnerBar = new QCPBars(ui->plotWidget->xAxis, ui->plotWidget->yAxis);
@@ -178,7 +182,6 @@ void SettingsDialog::plotResults(double nlohmannTime, double rapidJsonTime)
     };
 
     addLabel(1, nlohmannTime, QColor("#804060"));
-
     addLabel(2, rapidJsonTime, winnerColor);
 
     ui->plotWidget->replot();
@@ -187,7 +190,11 @@ void SettingsDialog::plotResults(double nlohmannTime, double rapidJsonTime)
 void SettingsDialog::on_languageComboBox_currentIndexChanged(int index)
 {
     QString langCode = ui->languageComboBox->itemData(index).toString();
-    if (langCode.isEmpty()) return;
+    bool newIsEnglish = (langCode == "en_US");
+
+    if (newIsEnglish == isEnglishActive) return;
+
+    isEnglishActive = newIsEnglish;
 
     if (appTranslator) {
         qApp->removeTranslator(appTranslator);
@@ -195,7 +202,7 @@ void SettingsDialog::on_languageComboBox_currentIndexChanged(int index)
         appTranslator = nullptr;
     }
 
-    if (langCode == "en_US") {
+    if (isEnglishActive) {
         appTranslator = new QTranslator(qApp);
         if (appTranslator->load(":/i18n/lab3_en_US.qm")) {
             qApp->installTranslator(appTranslator);
@@ -210,6 +217,16 @@ void SettingsDialog::on_languageComboBox_currentIndexChanged(int index)
     }
 }
 
+void SettingsDialog::on_themeComboBox_currentIndexChanged(int index)
+{
+    bool newIsDark = (index == 1);
+
+    if (newIsDark == isDarkThemeActive) return;
+
+    isDarkThemeActive = newIsDark;
+    setDarkTheme(newIsDark);
+}
+
 void SettingsDialog::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
@@ -222,19 +239,18 @@ void SettingsDialog::changeEvent(QEvent *event)
         ui->themeComboBox->clear();
         ui->themeComboBox->addItem(tr("Світла"));
         ui->themeComboBox->addItem(tr("Темна"));
-
         ui->themeComboBox->setCurrentIndex(isDarkThemeActive ? 1 : 0);
 
-        QVariant currentLangData = ui->languageComboBox->currentData();
         ui->languageComboBox->clear();
-        ui->languageComboBox->addItem(tr("Українська"), "uk_UA");
-        ui->languageComboBox->addItem(tr("English"), "en_US");
-        int langIndex = ui->languageComboBox->findData(currentLangData);
-        if (langIndex != -1) ui->languageComboBox->setCurrentIndex(langIndex);
+        ui->languageComboBox->addItem(tr("Українська"), QVariant("uk_UA"));
+        ui->languageComboBox->addItem(tr("English"), QVariant("en_US"));
+        ui->languageComboBox->setCurrentIndex(isEnglishActive ? 1 : 0);
 
         ui->plotWidget->xAxis->setLabel(tr("Бібліотека"));
         ui->plotWidget->yAxis->setLabel(tr("Час (мс)"));
         ui->plotWidget->replot();
+
+        setupStatisticsChart();
 
         ui->themeComboBox->blockSignals(false);
         ui->languageComboBox->blockSignals(false);
@@ -244,31 +260,83 @@ void SettingsDialog::changeEvent(QEvent *event)
 
 void SettingsDialog::setDarkTheme(bool enable)
 {
-    isDarkThemeActive = enable;
-
     QString stylePath = enable ? ":/styles/styles/dark.qss" : ":/styles/styles/light.qss";
     QFile file(stylePath);
 
-    if (file.open(QFile::ReadOnly | QFile::Text)) {
-        qApp->setStyleSheet(QLatin1String(file.readAll()));
-        file.close();
-        qInfo() << "Тему змінено на:" << (enable ? "Dark" : "Light");
-    } else {
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        // Fallback шлях
         stylePath = enable ? ":/styles/dark.qss" : ":/styles/light.qss";
-        QFile fileAlt(stylePath);
-        if (fileAlt.open(QFile::ReadOnly | QFile::Text)) {
-            qApp->setStyleSheet(QLatin1String(fileAlt.readAll()));
-            fileAlt.close();
+        file.setFileName(stylePath);
+        if (!file.open(QFile::ReadOnly | QFile::Text)) {
+             qCritical() << "ERROR: Could not find style file:" << stylePath;
+             return;
         }
     }
+
+    QString styleSheet = QLatin1String(file.readAll());
+    qApp->setStyleSheet(styleSheet);
+    file.close();
 }
 
 
-void SettingsDialog::on_themeComboBox_currentIndexChanged(int index)
-{
-    bool isDark = (index == 1);
+    void SettingsDialog::setupStatisticsChart()
+    {
+        ui->statsPlotWidget->clearPlottables();
 
-    if (isDark == isDarkThemeActive) return;
+        if (ui->statsPlotWidget->plotLayout()->elementCount() > 1) {
+            ui->statsPlotWidget->plotLayout()->removeAt(0);
+            ui->statsPlotWidget->plotLayout()->simplify();
+        }
 
-    setDarkTheme(isDark);
+        ui->statsPlotWidget->plotLayout()->insertRow(0);
+        QCPTextElement *title = new QCPTextElement(ui->statsPlotWidget, tr("Історія активності"), QFont("Segoe UI", 12, QFont::Bold));
+        if (isDarkThemeActive) title->setTextColor(Qt::white);
+        else title->setTextColor(Qt::black);
+
+        ui->statsPlotWidget->plotLayout()->addElement(0, 0, title);
+
+    QMap<QString, int> stats = m_dataManager->getUsageStats();
+
+    QString today = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+    if (!stats.contains(today)) stats[today] = 0;
+
+    QVector<double> ticks;
+    QVector<QString> labels;
+    QVector<double> values;
+
+    int i = 1;
+    for(auto it = stats.begin(); it != stats.end(); ++it) {
+        ticks << i;
+        QString shortDate = QDate::fromString(it.key(), "yyyy-MM-dd").toString("dd.MM");
+        labels << shortDate;
+
+        double minutes = it.value() / 60.0;
+        values << minutes;
+        i++;
+    }
+
+    QCPBars *bars = new QCPBars(ui->statsPlotWidget->xAxis, ui->statsPlotWidget->yAxis);
+    bars->setName(tr("Активність (хв)"));
+    bars->setPen(Qt::NoPen);
+    bars->setBrush(QColor("#ff69b4"));
+
+    QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+    textTicker->addTicks(ticks, labels);
+
+    ui->statsPlotWidget->xAxis->setTicker(textTicker);
+    ui->statsPlotWidget->xAxis->setLabel(tr("Дата"));
+    ui->statsPlotWidget->xAxis->setTickLabelRotation(0);
+    ui->statsPlotWidget->xAxis->setRange(0, ticks.size() + 1);
+
+    ui->statsPlotWidget->yAxis->setLabel(tr("Час (хвилини)"));
+
+    bars->setData(ticks, values);
+    ui->statsPlotWidget->rescaleAxes();
+
+    if (ui->statsPlotWidget->yAxis->range().upper < 10)
+        ui->statsPlotWidget->yAxis->setRangeUpper(10);
+    else
+        ui->statsPlotWidget->yAxis->setRangeUpper(ui->statsPlotWidget->yAxis->range().upper * 1.2);
+
+    ui->statsPlotWidget->replot();
 }

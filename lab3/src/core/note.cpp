@@ -1,7 +1,7 @@
 #include "note.h"
 
 Note::Note(const QString &title, int schemaId)
-: m_title(title), m_schemaId(schemaId), m_creationDate(QDateTime::currentDateTime()) {
+: m_title(title), m_schemaId(schemaId), m_creationDate(QDateTime::currentDateTime()), m_isPinned(false) {
 }
 
 QString Note::getTitle() const {
@@ -44,4 +44,12 @@ void Note::setImage(const QString &base64Image) {
 
 QString Note::getImage() const {
     return m_imageBase64;
+}
+
+bool Note::isPinned() const {
+    return m_isPinned;
+}
+
+void Note::setPinned(bool pinned) {
+    m_isPinned = pinned;
 }

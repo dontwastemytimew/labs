@@ -9,11 +9,20 @@
 #include "tageditor.h"
 #include <QFileDialog>
 #include "settingsdialog.h"
+#include "statisticsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->sortComboBox->clear();
+    ui->sortComboBox->addItem(tr("Спочатку нові"));   // index 0
+    ui->sortComboBox->addItem(tr("Спочатку старі"));  // index 1
+    ui->sortComboBox->addItem(tr("Назва (А-Я)"));     // index 2
+    ui->sortComboBox->addItem(tr("Назва (Я-А)"));     // index 3
+
+    m_sessionTimer.start();
 
     setWindowTitle(tr("Редактор структурованих нотаток"));
 
@@ -21,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->notesListWidget, &QWidget::customContextMenuRequested, this, &MainWindow::onNotesListContextMenuRequested);
     connect(ui->notesListWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onNoteDoubleClicked);
-
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &MainWindow::updateNotesList);
     m_dataManager.loadFromFile("data.json");
 }
 
@@ -39,6 +48,15 @@ void MainWindow::on_manageSchemasButton_clicked()
 
 void MainWindow::updateNotesList()
 {
+    SortType type = SortType::ByDateNewest;
+    int index = ui->sortComboBox->currentIndex();
+
+    if (index == 1) type = SortType::ByDateOldest;
+    else if (index == 2) type = SortType::ByNameAZ;
+    else if (index == 3) type = SortType::ByNameZA;
+
+    m_dataManager.sortNotes(type);
+
     QString searchText = ui->searchLineEdit->text();
     ui->notesListWidget->clear();
 
@@ -68,10 +86,6 @@ void MainWindow::on_createNoteButton_clicked() {
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) {
-    m_dataManager.saveToFile("data.json");
-    QMainWindow::closeEvent(event);
-}
 
 void MainWindow::deleteNoteLogic()
 {
@@ -93,11 +107,23 @@ void MainWindow::onNotesListContextMenuRequested(const QPoint &pos)
     int currentIndex = ui->notesListWidget->row(item);
     QMenu contextMenu(this);
 
+    QAction *pinAction = contextMenu.addAction(tr("Закріпити/Відкріпити"));
+    contextMenu.addSeparator();
+
     QAction *editTagsAction = contextMenu.addAction(tr("Редагувати теги"));
+    contextMenu.addSeparator();
     QAction *exportAction = contextMenu.addAction(tr("Експортувати (.json)"));
+    QAction *exportPdfAction = contextMenu.addAction(tr("Експортувати (PDF)"));
+    contextMenu.addSeparator();
     QAction *deleteAction = contextMenu.addAction(tr("Видалити нотатку"));
 
     QAction *selectedAction = contextMenu.exec(ui->notesListWidget->mapToGlobal(pos));
+
+    if (selectedAction == pinAction) {
+        Note& note = m_dataManager.getNotes()[currentIndex];
+        note.setPinned(!note.isPinned());
+        updateNotesList();
+    }
 
     if (selectedAction == deleteAction) {
         qDebug() << tr("Користувач обрав 'Видалити нотатку' з контекстного меню.");
@@ -121,6 +147,18 @@ void MainWindow::onNotesListContextMenuRequested(const QPoint &pos)
 
         if (!fileName.isEmpty()) {
             m_dataManager.exportNote(currentIndex, fileName);
+        }
+    }
+    else if (selectedAction == exportPdfAction) {
+        QString defaultFileName = m_dataManager.getNotes()[currentIndex].getTitle();
+
+        QString fileName = QFileDialog::getSaveFileName(this,
+            tr("Зберегти як PDF"),
+            defaultFileName + ".pdf",
+            tr("PDF Files (*.pdf)"));
+
+        if (!fileName.isEmpty()) {
+            m_dataManager.exportNoteToPdf(currentIndex, fileName);
         }
     }
 }
@@ -169,9 +207,10 @@ void MainWindow::on_importNoteButton_clicked()
 }
 
 void MainWindow::on_settingsButton_clicked() {
-    SettingsDialog dialog(this);
+    SettingsDialog dialog(&m_dataManager, this);
     dialog.exec();
 }
+
 
 void MainWindow::changeEvent(QEvent *event)
 {
@@ -181,4 +220,19 @@ void MainWindow::changeEvent(QEvent *event)
         setWindowTitle(tr("Редактор структурованих нотаток"));
     }
     QMainWindow::changeEvent(event);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    qint64 sessionSeconds = m_sessionTimer.elapsed() / 1000;
+    m_dataManager.addUsageTime(sessionSeconds);
+
+    qInfo() << "Сесія тривала" << sessionSeconds << "секунд.";
+
+    m_dataManager.saveToFile("data.json");
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::on_sortComboBox_currentIndexChanged(int index)
+{
+    updateNotesList();
 }

@@ -5,6 +5,11 @@
 #include <QDebug>
 #include <QObject>
 #include <QFile>
+#include <QPrinter>
+#include <QTextDocument>
+#include <QDateTime>
+#include <algorithm>
+#include <QTextStream>
 
 using json = nlohmann::json;
 
@@ -51,8 +56,8 @@ void DataManager::updateNote(int index, const Note& note) {
 
 void DataManager::saveToFile(const QString &filePath) const {
     json rootObject;
-    rootObject["schemas"] = json::array();
 
+    rootObject["schemas"] = json::array();
     for (const auto& schema : m_schemas) {
         json schemaObject;
         schemaObject["name"] = schema.getName().toStdString();
@@ -72,8 +77,6 @@ void DataManager::saveToFile(const QString &filePath) const {
         noteObject["title"] = note.getTitle().toStdString();
         noteObject["schemaId"] = note.getSchemaId();
 
-        noteObject["image"] = note.getImage().toStdString();
-
         noteObject["fields"] = json::object();
         const auto& fields = note.getFields();
         for (auto it = fields.constBegin(); it != fields.constEnd(); ++it) {
@@ -84,8 +87,19 @@ void DataManager::saveToFile(const QString &filePath) const {
         for (const auto& tag : note.getTags()) {
             noteObject["tags"].push_back(tag.toStdString());
         }
+
+        noteObject["image"] = note.getImage().toStdString();
+
+        noteObject["pinned"] = note.isPinned();
+
         rootObject["notes"].push_back(noteObject);
     }
+
+    rootObject["stats"] = json::object();
+    for(auto it = m_usageStats.begin(); it != m_usageStats.end(); ++it) {
+        rootObject["stats"][it.key().toStdString()] = it.value();
+    }
+
     QFile file(filePath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
@@ -100,7 +114,7 @@ void DataManager::saveToFile(const QString &filePath) const {
 void DataManager::loadFromFile(const QString &filePath) {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << QObject::tr("Файл даних не знайдено. Буде створено новий при закритті.");
+        qWarning() << QObject::tr("Файл даних не знайдено (або неможливо відкрити). Буде створено новий.");
         return;
     }
 
@@ -111,12 +125,13 @@ void DataManager::loadFromFile(const QString &filePath) {
     try {
         rootObject = json::parse(content.toStdString());
     } catch (const std::exception& e) {
-        qCritical() << QObject::tr("ПОМИЛКА: Не вдалося розпарсити JSON файл:") << filePath << QObject::tr("Помилка:") << e.what();
+        qCritical() << QObject::tr("ПОМИЛКА: Не вдалося розпарсити JSON файл:") << filePath << e.what();
         return;
     }
 
     m_schemas.clear();
     m_notes.clear();
+    m_usageStats.clear();
 
     if (rootObject.contains("schemas")) {
         for (const auto& schemaObject : rootObject["schemas"]) {
@@ -140,25 +155,47 @@ void DataManager::loadFromFile(const QString &filePath) {
                 noteObject["schemaId"]
             );
 
-            if (noteObject.contains("image")) {
-                newNote.setImage(QString::fromStdString(noteObject["image"]));
-            }
-
             if (noteObject.contains("fields")) {
                 for (auto& [key, value] : noteObject["fields"].items()) {
                     newNote.addField(QString::fromStdString(key), QString::fromStdString(value));
                 }
             }
+
             if (noteObject.contains("tags")) {
                 for (const auto& tag : noteObject["tags"]) {
                     newNote.addTag(QString::fromStdString(tag));
                 }
             }
+
+            if (noteObject.contains("image")) {
+                newNote.setImage(QString::fromStdString(noteObject["image"]));
+            }
+
+            newNote.setPinned(noteObject.value("pinned", false));
+
             m_notes.append(newNote);
         }
     }
 
-    qInfo() << QObject::tr("Дані успішно завантажено. Знайдено %1 схем та %2 нотаток.").arg(m_schemas.size()).arg(m_notes.size());
+    if (rootObject.contains("stats")) {
+        for (auto& [key, value] : rootObject["stats"].items()) {
+            m_usageStats[QString::fromStdString(key)] = value;
+        }
+    }
+
+        // ГЕНЕРАЦІЯ ФЕЙКОВОЇ СТАТИСТИКИ (Якщо її немає)
+        // Це створить дані за останні 7 днів
+        if (m_usageStats.isEmpty()) {
+            QDate today = QDate::currentDate();
+            for (int i = 6; i >= 0; --i) {
+                QDate date = today.addDays(-i);
+                int minutes = QRandomGenerator::global()->bounded(5, 60);
+                m_usageStats[date.toString("yyyy-MM-dd")] = minutes * 60;
+            }
+        }
+
+    qInfo() << QObject::tr("Дані успішно завантажено. Знайдено %1 схем та %2 нотаток.")
+               .arg(m_schemas.size()).arg(m_notes.size());
 }
 
 void DataManager::removeNote(int index) {
@@ -176,22 +213,23 @@ void DataManager::exportNote(int index, const QString& filePath) const {
     noteObject["title"] = note.getTitle().toStdString();
     noteObject["schemaId"] = note.getSchemaId();
 
-    noteObject["image"] = note.getImage().toStdString();
-
     noteObject["tags"] = json::array();
     for (const auto& tag : note.getTags()) {
         noteObject["tags"].push_back(tag.toStdString());
     }
+
     noteObject["fields"] = json::object();
     for (auto it = note.getFields().constBegin(); it != note.getFields().constEnd(); ++it) {
         noteObject["fields"][it.key().toStdString()] = it.value().toStdString();
     }
 
-    QFile file(filePath);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream out(&file);
-        out << QString::fromStdString(noteObject.dump(4));
-        file.close();
+    noteObject["image"] = note.getImage().toStdString();
+
+    noteObject["pinned"] = note.isPinned();
+
+    std::ofstream file(filePath.toStdString());
+    if (file.is_open()) {
+        file << noteObject.dump(4);
         qInfo() << QObject::tr("Нотатку '%1' успішно експортовано у файл: %2").arg(note.getTitle()).arg(filePath);
     } else {
         qCritical() << QObject::tr("ПОМИЛКА: Не вдалося відкрити файл для експорту:") << filePath;
@@ -225,10 +263,6 @@ void DataManager::importNote(const QString& filePath) {
 
     Note importedNote(title, schemaId);
 
-    if (noteObject.contains("image")) {
-        importedNote.setImage(QString::fromStdString(noteObject["image"]));
-    }
-
     if (noteObject.contains("fields")) {
         for (auto& [key, value] : noteObject["fields"].items()) {
             importedNote.addField(QString::fromStdString(key), QString::fromStdString(value));
@@ -243,9 +277,89 @@ void DataManager::importNote(const QString& filePath) {
         importedNote.setTags(tags);
     }
 
-    qDebug() << QObject::tr("Нотатка для додавання готова. Назва: %1").arg(importedNote.getTitle());
+    if (noteObject.contains("image")) {
+        importedNote.setImage(QString::fromStdString(noteObject["image"]));
+    }
+
+    importedNote.setPinned(noteObject.value("pinned", false));
 
     m_notes.append(importedNote);
     qInfo() << QObject::tr("Нотатку успішно імпортовано з файлу: %1").arg(filePath);
-    qDebug() << QObject::tr("Кількість нотаток у DataManager тепер: %1").arg(m_notes.size());
+}
+
+void DataManager::exportNoteToPdf(int index, const QString& filePath) const {
+    if (index < 0 || index >= m_notes.size()) return;
+
+    const Note& note = m_notes[index];
+
+    QString html = "<html><body>";
+
+    html += QString("<h1 align='center'>%1</h1>").arg(note.getTitle());
+
+    html += QString("<p align='right'><i>Date: %1</i></p>").arg(note.getCreationDate().toString("dd.MM.yyyy HH:mm"));
+
+    if (!note.getTags().isEmpty()) {
+        QStringList tagsList = note.getTags().values();
+        html += QString("<p><b>Tags:</b> <span style='color: gray'>#%1</span></p>").arg(tagsList.join(" #"));
+    }
+
+    html += "<hr>";
+
+    if (!note.getImage().isEmpty()) {
+        html += QString("<div align='center'><img src='data:image/png;base64,%1' width='400'></div><br>").arg(note.getImage());
+    }
+
+    if (!note.getFields().isEmpty()) {
+        html += "<table border='1' cellspacing='0' cellpadding='5' width='100%'>";
+        for (auto it = note.getFields().constBegin(); it != note.getFields().constEnd(); ++it) {
+            html += QString("<tr><td bgcolor='#f0f0f0' width='30%'><b>%1</b></td><td>%2</td></tr>")
+                    .arg(it.key())
+                    .arg(it.value());
+        }
+        html += "</table>";
+    }
+
+    html += "</body></html>";
+
+    QTextDocument document;
+    document.setHtml(html);
+
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(filePath);
+    printer.setPageMargins(QMarginsF(15, 15, 15, 15));
+
+    document.print(&printer);
+
+    qInfo() << QObject::tr("Нотатку успішно експортовано в PDF: %1").arg(filePath);
+}
+
+void DataManager::sortNotes(SortType type) {
+    std::stable_sort(m_notes.begin(), m_notes.end(), [type](const Note& a, const Note& b) {
+        if (a.isPinned() != b.isPinned()) {
+            return a.isPinned() > b.isPinned();
+        }
+
+        switch (type) {
+            case SortType::ByDateNewest:
+                return a.getCreationDate() > b.getCreationDate();
+            case SortType::ByDateOldest:
+                return a.getCreationDate() < b.getCreationDate();
+            case SortType::ByNameAZ:
+                return a.getTitle().localeAwareCompare(b.getTitle()) < 0; // А < Б
+            case SortType::ByNameZA:
+                return a.getTitle().localeAwareCompare(b.getTitle()) > 0; // А > Б
+            default:
+                return false;
+        }
+    });
+}
+
+void DataManager::addUsageTime(int seconds) {
+    QString today = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+    m_usageStats[today] += seconds;
+}
+
+QMap<QString, int> DataManager::getUsageStats() const {
+    return m_usageStats;
 }
