@@ -57,6 +57,8 @@ public:
      */
     void accept() override;
 
+ void on_addImageButton_clicked();
+
  protected:
  void changeEvent(QEvent *event) override;
 
@@ -65,4 +67,9 @@ private:
  DataManager *m_dataManager;     ///< Вказівник на "мозок" програми.
  QList<QLineEdit*> m_fieldInputs;///< Тимчасове сховище для вказівників на динамічно створені поля вводу.
  QSet<QString> m_originalTags;   ///< Тимчасове сховище для тегів нотатки під час її редагування.
+
+ QString m_currentImageBase64;
+
+
+ void displayImage(const QString& base64);
 };

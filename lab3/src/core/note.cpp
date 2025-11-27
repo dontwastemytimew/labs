@@ -37,3 +37,11 @@ void Note::setTags(const QSet<QString>& tags) { m_tags = tags; }
 void Note::setTitle(const QString &title) {
     m_title = title;
 }
+
+void Note::setImage(const QString &base64Image) {
+    m_imageBase64 = base64Image;
+}
+
+QString Note::getImage() const {
+    return m_imageBase64;
+}

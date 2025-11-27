@@ -1,6 +1,5 @@
 #include "datamanager.h"
 #include "json.hpp"
-#include <fstream>
 #include <QList>
 #include <QString>
 #include <QDebug>
@@ -72,21 +71,26 @@ void DataManager::saveToFile(const QString &filePath) const {
         json noteObject;
         noteObject["title"] = note.getTitle().toStdString();
         noteObject["schemaId"] = note.getSchemaId();
+
+        noteObject["image"] = note.getImage().toStdString();
+
         noteObject["fields"] = json::object();
         const auto& fields = note.getFields();
         for (auto it = fields.constBegin(); it != fields.constEnd(); ++it) {
             noteObject["fields"][it.key().toStdString()] = it.value().toStdString();
         }
+
         noteObject["tags"] = json::array();
         for (const auto& tag : note.getTags()) {
             noteObject["tags"].push_back(tag.toStdString());
         }
         rootObject["notes"].push_back(noteObject);
     }
-
-    std::ofstream file(filePath.toStdString());
-    if (file.is_open()) {
-        file << rootObject.dump(4);
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << QString::fromStdString(rootObject.dump(4));
+        file.close();
         qInfo() << QObject::tr("Дані успішно збережено у файл:") << filePath;
     } else {
         qCritical() << QObject::tr("ПОМИЛКА: не вдалося відкрити файл для збереження:") << filePath;
@@ -94,15 +98,18 @@ void DataManager::saveToFile(const QString &filePath) const {
 }
 
 void DataManager::loadFromFile(const QString &filePath) {
-    std::ifstream file(filePath.toStdString());
-    if (!file.is_open()) {
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << QObject::tr("Файл даних не знайдено. Буде створено новий при закритті.");
         return;
     }
 
+    QString content = file.readAll();
+    file.close();
+
     json rootObject;
     try {
-        file >> rootObject;
+        rootObject = json::parse(content.toStdString());
     } catch (const std::exception& e) {
         qCritical() << QObject::tr("ПОМИЛКА: Не вдалося розпарсити JSON файл:") << filePath << QObject::tr("Помилка:") << e.what();
         return;
@@ -132,6 +139,11 @@ void DataManager::loadFromFile(const QString &filePath) {
                 QString::fromStdString(noteObject["title"]),
                 noteObject["schemaId"]
             );
+
+            if (noteObject.contains("image")) {
+                newNote.setImage(QString::fromStdString(noteObject["image"]));
+            }
+
             if (noteObject.contains("fields")) {
                 for (auto& [key, value] : noteObject["fields"].items()) {
                     newNote.addField(QString::fromStdString(key), QString::fromStdString(value));
@@ -163,6 +175,9 @@ void DataManager::exportNote(int index, const QString& filePath) const {
 
     noteObject["title"] = note.getTitle().toStdString();
     noteObject["schemaId"] = note.getSchemaId();
+
+    noteObject["image"] = note.getImage().toStdString();
+
     noteObject["tags"] = json::array();
     for (const auto& tag : note.getTags()) {
         noteObject["tags"].push_back(tag.toStdString());
@@ -172,9 +187,11 @@ void DataManager::exportNote(int index, const QString& filePath) const {
         noteObject["fields"][it.key().toStdString()] = it.value().toStdString();
     }
 
-    std::ofstream file(filePath.toStdString());
-    if (file.is_open()) {
-        file << noteObject.dump(4);
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << QString::fromStdString(noteObject.dump(4));
+        file.close();
         qInfo() << QObject::tr("Нотатку '%1' успішно експортовано у файл: %2").arg(note.getTitle()).arg(filePath);
     } else {
         qCritical() << QObject::tr("ПОМИЛКА: Не вдалося відкрити файл для експорту:") << filePath;
@@ -207,6 +224,10 @@ void DataManager::importNote(const QString& filePath) {
     int schemaId = noteObject.value("schemaId", 0);
 
     Note importedNote(title, schemaId);
+
+    if (noteObject.contains("image")) {
+        importedNote.setImage(QString::fromStdString(noteObject["image"]));
+    }
 
     if (noteObject.contains("fields")) {
         for (auto& [key, value] : noteObject["fields"].items()) {

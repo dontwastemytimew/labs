@@ -5,6 +5,10 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QBuffer>
+#include <QPixmap>
+#include <QByteArray>
 
 NoteEditor::NoteEditor(DataManager *dataManager, QWidget *parent) :
     QDialog(parent),
@@ -17,6 +21,7 @@ NoteEditor::NoteEditor(DataManager *dataManager, QWidget *parent) :
     for (const auto& schema : m_dataManager->getSchemas()) {
         ui->schemaComboBox->addItem(schema.getName());
     }
+
 
     connect(ui->schemaComboBox, &QComboBox::currentIndexChanged, this, &NoteEditor::onSchemaSelected);
     onSchemaSelected(0);
@@ -68,6 +73,8 @@ Note NoteEditor::getNote() const
 
     newNote.setTags(m_originalTags);
 
+    newNote.setImage(m_currentImageBase64);
+
     return newNote;
 }
 
@@ -99,6 +106,12 @@ NoteEditor::NoteEditor(DataManager *dataManager, const Note &noteToEdit, QWidget
     }
 
 
+    m_currentImageBase64 = noteToEdit.getImage();
+    if (!m_currentImageBase64.isEmpty()) {
+        displayImage(m_currentImageBase64);
+        ui->addImageButton->setText(tr("Змінити фото"));
+    }
+
     m_originalTags = noteToEdit.getTags();
 }
 
@@ -119,4 +132,40 @@ void NoteEditor::changeEvent(QEvent *event)
         setWindowTitle(tr("Редактор нотатки"));
     }
     QDialog::changeEvent(event);
+}
+
+void NoteEditor::on_addImageButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Виберіть зображення"), "",
+        tr("Зображення (*.png *.jpg *.jpeg *.bmp)"));
+
+    if (fileName.isEmpty()) return;
+
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadOnly)) {
+        QByteArray imageData = file.readAll();
+
+        m_currentImageBase64 = QString::fromLatin1(imageData.toBase64());
+
+        displayImage(m_currentImageBase64);
+        ui->addImageButton->setText(tr("Змінити фото"));
+
+        qInfo() << "Додано зображення до нотатки (розмір:" << imageData.size() << "байт)";
+    }
+}
+
+void NoteEditor::displayImage(const QString& base64)
+{
+    if (base64.isEmpty()) return;
+
+    QByteArray imageData = QByteArray::fromBase64(base64.toLatin1());
+    QPixmap pixmap;
+    if (pixmap.loadFromData(imageData)) {
+        ui->imageLabel->setPixmap(pixmap.scaled(ui->imageLabel->size(),
+                                                Qt::KeepAspectRatio,
+                                                Qt::SmoothTransformation));
+    } else {
+        ui->imageLabel->setText(tr("Не вдалося показати фото"));
+    }
 }

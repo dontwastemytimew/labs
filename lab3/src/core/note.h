@@ -75,10 +75,15 @@ public:
      */
     void setTitle(const QString& title);
 
+    void setImage(const QString& base64Image);
+    QString getImage() const;
+
 private:
     QString m_title;                ///< Назва нотатки.
     int m_schemaId;                 ///< ID схеми, за якою створено нотатку.
     QMap<QString, QString> m_fields;///< Дані полів у форматі "Назва поля" -> "Значення".
     QDateTime m_creationDate;       ///< Дата та час створення нотатки.
     QSet<QString> m_tags;           ///< Набір унікальних тегів.
+
+    QString m_imageBase64;
 };

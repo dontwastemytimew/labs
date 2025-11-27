@@ -17,6 +17,20 @@ NoteWidget::NoteWidget(const Note &note, QWidget *parent) :
     } else {
         ui->tagsLabel->hide();
     }
+
+    QString base64Image = note.getImage();
+    if (!base64Image.isEmpty()) {
+        QByteArray imageData = QByteArray::fromBase64(base64Image.toLatin1());
+        QPixmap pixmap;
+        if (pixmap.loadFromData(imageData)) {
+            ui->thumbLabel->setPixmap(pixmap.scaled(60, 60,
+                                      Qt::KeepAspectRatioByExpanding,
+                                      Qt::SmoothTransformation));
+        }
+        ui->thumbLabel->show();
+    } else {
+        ui->thumbLabel->hide();
+    }
 }
 
 NoteWidget::~NoteWidget() {
