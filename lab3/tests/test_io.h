@@ -101,12 +101,65 @@ private:
         std::cout << "Passed!\n";
     }
 
+    static void test_image_handling() {
+        std::cout << "  - Testing Image (Base64) Save/Load... ";
+
+        const QString testPath = "test_image_temp.json";
+
+        const QString base64Image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU55AA";
+
+        DataManager dm_save;
+        Note n_save("Note with Image", 0);
+        n_save.setImage(base64Image);
+        dm_save.addNote(n_save);
+
+        dm_save.saveToFile(testPath);
+
+        DataManager dm_load;
+        dm_load.loadFromFile(testPath);
+
+        const Note& n_load = dm_load.getNotes()[0];
+        assert(!n_load.getImage().isEmpty());
+        assert(n_load.getImage() == base64Image);
+
+        QFile::remove(testPath);
+
+        std::cout << "Passed!\n";
+    }
+
+    static void test_export_to_pdf() {
+        std::cout << "  - Testing PDF Export functionality... ";
+
+        const QString pdfPath = "test_export_temp.pdf";
+
+        DataManager dm;
+        Note n_pdf("PDF Test Note", 0);
+        n_pdf.addField("Field 1", "Content");
+        dm.addNote(n_pdf);
+
+        QFile::remove(pdfPath);
+        assert(!QFile::exists(pdfPath));
+
+        dm.exportNoteToPdf(0, pdfPath);
+
+        assert(QFile::exists(pdfPath));
+
+        QFile file(pdfPath);
+        assert(file.size() > 100);
+
+        QFile::remove(pdfPath);
+
+        std::cout << "Passed!\n";
+    }
+
 public:
     static void runTests() {
         std::cout << "--- Running I/O Tests ---\n";
         test_save_and_load_data();
         test_single_note_io();
         test_load_corrupted_file();
+        test_image_handling();
+        test_export_to_pdf();
         std::cout << "--- I/O Tests Passed ---\n";
     }
 };

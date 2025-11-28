@@ -1098,11 +1098,12 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which Doxygen is
 # run.
 
-EXCLUDE                = ../lab1 \
+EXCLUDE                = ./lab1 \
                                                   ../lab2 \
                                                   libs/json.hpp \
                                                   libs/nanobench.h \
-                                                  libs/qcustomplot.h
+                                                  libs/qcustomplot.h \
+                                                  libs/rapidjson/
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -1119,14 +1120,14 @@ EXCLUDE_SYMLINKS       = NO
 # exclude all test directories for example use the pattern */test/*
 
 EXCLUDE_PATTERNS       = */tests/* \
-                                                  */lab1/* */lab2/* \
+                         */libs/* \
+
                                                   */cmake-build-* \
-                                                  */moc_* \
-                                                  */ui_* \
-                                                  */.qmake.stash \
-                                                  */__pycache__ \
-                                                  */.git \
-                                                  libs/*
+                                                                           */moc_* \
+                                                                           */ui_* \
+                                                                           */lab1/* \
+                                                                           */lab2/* \
+                                                                           */libs/*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -1225,7 +1226,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the Doxygen output.
 
-USE_MDFILE_AS_MAINPAGE =
+USE_MDFILE_AS_MAINPAGE = YES
 
 # If the IMPLICIT_DIR_DOCS tag is set to YES, any README.md file found in sub-
 # directories of the project's root, is used as the documentation for that sub-
