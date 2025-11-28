@@ -24,22 +24,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Doxygen
+      - name: Install Dependencies
         run: sudo apt-get install -y doxygen graphviz
 
+      - name: Prepare Documentation
+        run: rm -rf docs
+
       - name: Generate Documentation
-        run: |
-          cd lab3
-          doxygen Doxyfile
+        run: doxygen lab3/Doxyfile
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'lab3/docs'
+          path: 'docs/html'
 
       - name: Deploy to GitHub Pages
         id: deployment
