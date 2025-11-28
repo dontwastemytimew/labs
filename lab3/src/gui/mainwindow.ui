@@ -49,6 +49,13 @@
               <height>80</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Courier New</family>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="text">
              <string>Редактор структурованих нотаток</string>
             </property>

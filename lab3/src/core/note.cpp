@@ -53,3 +53,7 @@ bool Note::isPinned() const {
 void Note::setPinned(bool pinned) {
     m_isPinned = pinned;
 }
+
+void Note::setCreationDate(const QDateTime& date) {
+    m_creationDate = date;
+}

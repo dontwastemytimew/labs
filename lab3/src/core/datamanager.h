@@ -145,7 +145,17 @@ public:
      */
     QMap<QString, int> getUsageStats() const;
 
+ /**
+ * @brief Запускає бенчмаркінг функцій saveToFile та loadFromFile.
+ *
+ * Генерує N тестових нотаток і вимірює час серіалізації/десеріалізації.
+ * @param noteCount Кількість нотаток для тесту.
+ * @return QPair<qint64, qint64> (Час збереження, Час завантаження) у мс.
+ */
+ QPair<qint64, qint64> runSystemBenchmark(int noteCount);
+
 private:
+ QList<Note> generateTestNotes(int count) const;  ///< Приватний метод для генерації тестових нотаток
     QList<Schema> m_schemas;   ///< Внутрішнє сховище для списку всіх схем.
     QList<Note> m_notes;       ///< Внутрішнє сховище для списку всіх нотаток.
     QMap<QString, int> m_usageStats; ///< Зберігає статистику часу використання (Дата -> Секунди).

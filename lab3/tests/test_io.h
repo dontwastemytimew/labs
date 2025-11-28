@@ -4,45 +4,10 @@
 #include <cassert>
 #include <iostream>
 #include <QFile>
-#include "../datamanager.h"
+#include "datamanager.h"
 
 class TestIO {
 private:
-    static void test_save_and_load_data() {
-        std::cout << "  - Testing Save/Load functionality... ";
-
-        const QString testPath = "test_data_temp.json";
-
-        DataManager dm_save;
-        Schema s("Схема для тесту");
-        s.addField({"Розділ", "Текст"});
-        dm_save.addSchema(s);
-
-        Note n("Збережена нотатка", 1); // 1, бо 0 - це дефолтна схема
-        n.addTag("test_tag");
-        n.addField("Розділ", "Тестовий вміст");
-        dm_save.addNote(n);
-
-        dm_save.saveToFile(testPath);
-
-        DataManager dm_load;
-        dm_load.loadFromFile(testPath);
-
-        // Перевірка кількості
-        assert(dm_load.getSchemas().size() == dm_save.getSchemas().size());
-        assert(dm_load.getNotes().size() == dm_save.getNotes().size());
-
-        // Перевірка вмісту нотатки
-        const Note& loadedNote = dm_load.getNotes()[0];
-        assert(loadedNote.getTitle() == "Збережена нотатка");
-        assert(loadedNote.getTags().contains("test_tag"));
-        assert(loadedNote.getFields().value("Розділ") == "Тестовий вміст");
-
-        QFile::remove(testPath);
-
-        std::cout << "Passed!\n";
-    }
-
     static void test_single_note_io() {
         std::cout << "  - Testing single Note Export/Import... ";
 
@@ -89,6 +54,50 @@ private:
         assert(dm.getNotes().isEmpty());
 
         QFile::remove(testPath);
+        std::cout << "Passed!\n";
+    }
+
+    static void test_save_and_load_data() {
+        std::cout << "  - Testing Save/Load functionality... ";
+
+        const QString testPath = "test_data_temp.json";
+
+        DataManager dm_save;
+        Schema s("Схема для тесту");
+        s.addField({"Розділ", "Текст"});
+        dm_save.addSchema(s);
+
+        Note n("Збережена нотатка", 1);
+        n.addTag("test_tag");
+        n.addField("Розділ", "Тестовий вміст");
+        n.setPinned(true);
+        dm_save.addNote(n);
+
+        QString testDate = "2024-01-01";
+        int testSeconds = 300;
+        dm_save.addUsageTime(testSeconds);
+
+        dm_save.saveToFile(testPath);
+
+        DataManager dm_load;
+        dm_load.loadFromFile(testPath);
+
+        assert(dm_load.getSchemas().size() == dm_save.getSchemas().size());
+        assert(dm_load.getNotes().size() == dm_save.getNotes().size());
+
+        const Note& loadedNote = dm_load.getNotes()[0];
+        assert(loadedNote.getTitle() == "Збережена нотатка");
+        assert(loadedNote.getTags().contains("test_tag"));
+        assert(loadedNote.getFields().value("Розділ") == "Тестовий вміст");
+        assert(loadedNote.isPinned() == true);
+
+        QString today = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        assert(dm_load.getUsageStats().contains(today));
+        assert(dm_load.getUsageStats().value(today) >= testSeconds);
+
+
+        QFile::remove(testPath);
+
         std::cout << "Passed!\n";
     }
 

@@ -10,6 +10,9 @@
 #include <QDateTime>
 #include <algorithm>
 #include <QTextStream>
+#include <QElapsedTimer>
+#include <QRandomGenerator>
+#include <fstream>
 
 using json = nlohmann::json;
 
@@ -336,9 +339,13 @@ void DataManager::exportNoteToPdf(int index, const QString& filePath) const {
 
 void DataManager::sortNotes(SortType type) {
     std::stable_sort(m_notes.begin(), m_notes.end(), [type](const Note& a, const Note& b) {
-        if (a.isPinned() != b.isPinned()) {
-            return a.isPinned() > b.isPinned();
-        }
+
+            if (a.isPinned() && !b.isPinned()) {
+                 return true;
+             }
+             if (!a.isPinned() && b.isPinned()) {
+                 return false;
+             }
 
         switch (type) {
             case SortType::ByDateNewest:
@@ -346,9 +353,9 @@ void DataManager::sortNotes(SortType type) {
             case SortType::ByDateOldest:
                 return a.getCreationDate() < b.getCreationDate();
             case SortType::ByNameAZ:
-                return a.getTitle().localeAwareCompare(b.getTitle()) < 0; // А < Б
+                return a.getTitle().localeAwareCompare(b.getTitle()) < 0;
             case SortType::ByNameZA:
-                return a.getTitle().localeAwareCompare(b.getTitle()) > 0; // А > Б
+                return a.getTitle().localeAwareCompare(b.getTitle()) > 0;
             default:
                 return false;
         }
@@ -362,4 +369,80 @@ void DataManager::addUsageTime(int seconds) {
 
 QMap<QString, int> DataManager::getUsageStats() const {
     return m_usageStats;
+}
+
+QList<Note> DataManager::generateTestNotes(int count) const {
+    if (m_schemas.isEmpty()) return {};
+
+    const Schema& baseSchema = m_schemas.first();
+    const int schemaId = 0;
+
+    QList<Note> testNotes;
+
+    for (int i = 0; i < count; ++i) {
+        QString title = QString("Test Note %1").arg(i + 1);
+
+        Note note(title, schemaId);
+
+        for (const auto& field : baseSchema.getFields()) {
+            QString value;
+            if (field.type == QObject::tr("Число")) {
+                value = QString::number(QRandomGenerator::global()->bounded(1900, 2024));
+            } else {
+                value = QString("Value %1 for %2").arg(i).arg(field.name);
+            }
+            note.addField(field.name, value);
+        }
+
+        if (i % 10 == 0) {
+            note.addTag("benchmark");
+        }
+        if (i % 5 == 0) {
+            note.addTag("test");
+        }
+
+        if (i % 20 == 0) {
+            note.setImage("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
+        }
+
+        testNotes.append(note);
+    }
+    return testNotes;
+}
+
+QPair<qint64, qint64> DataManager::runSystemBenchmark(int noteCount) {
+    if (m_schemas.isEmpty()) {
+        Schema defaultSchema("DefaultTest");
+        defaultSchema.addField({"TextValue", "Текст"});
+        m_schemas.append(defaultSchema);
+    }
+
+    QList<Note> originalNotes = m_notes;
+    QList<Schema> originalSchemas = m_schemas;
+
+    QList<Note> testNotes = generateTestNotes(noteCount);
+
+    m_notes = testNotes;
+
+    QString tempFilePath = "benchmark_temp_data.json";
+
+    QElapsedTimer saveTimer;
+    saveTimer.start();
+    saveToFile(tempFilePath);
+    qint64 saveTime = saveTimer.elapsed();
+
+    m_notes.clear();
+    m_schemas.clear();
+
+    QElapsedTimer loadTimer;
+    loadTimer.start();
+    loadFromFile(tempFilePath);
+    qint64 loadTime = loadTimer.elapsed();
+
+    QFile::remove(tempFilePath);
+
+    m_notes = originalNotes;
+    m_schemas = originalSchemas;
+
+    return qMakePair(saveTime, loadTime);
 }

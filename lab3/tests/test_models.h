@@ -3,8 +3,8 @@
 
 #include <cassert>
 #include <iostream>
-#include "../note.h"
-#include "../schema.h"
+#include "note.h"
+#include "schema.h"
 
 class TestModels {
 private:

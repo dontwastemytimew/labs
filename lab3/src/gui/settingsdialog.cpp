@@ -68,16 +68,18 @@ void SettingsDialog::on_runBenchmarkButton_clicked()
     ui->runBenchmarkButton->setEnabled(false);
     ui->runBenchmarkButton->setText(tr("Тестування..."));
     ui->resultLabel->setText(tr("Генерація даних..."));
+    // Очищення системного лейбла перед новим запуском
+    ui->resultLabel->setText("");
     qApp->processEvents();
 
-    int count = 100000;
+    const int LIBRARY_COUNT = 100000;
     std::vector<std::string> testData;
-    testData.reserve(count);
-    for(int i=0; i<count; ++i) {
+    testData.reserve(LIBRARY_COUNT);
+    for(int i = 0; i < LIBRARY_COUNT; ++i) {
         testData.push_back("Test Note Content " + std::to_string(i));
     }
 
-    ui->resultLabel->setText(tr("Тест nlohmann..."));
+    ui->resultLabel->setText(tr("Тест nlohmann/json..."));
     qApp->processEvents();
 
     QElapsedTimer timer;
@@ -118,14 +120,35 @@ void SettingsDialog::on_runBenchmarkButton_clicked()
 
     plotResults(nlohmannTime, rapidJsonTime);
 
-    ui->runBenchmarkButton->setEnabled(true);
-    ui->runBenchmarkButton->setText(tr("Запустити тест"));
-
     QString winner = (rapidJsonTime < nlohmannTime) ? "RapidJSON" : "nlohmann";
     double diff = (nlohmannTime > rapidJsonTime) ? nlohmannTime/rapidJsonTime : rapidJsonTime/nlohmannTime;
 
-    ui->resultLabel->setText(tr("Переміг: %1 (швидше в %2 разів!)")
-                             .arg(winner).arg(diff, 0, 'f', 2));
+    ui->resultLabel->setText(tr("Тест бібліотек (%1 елементів): Переможець: %2 (швидше в %3 разів!)")
+                             .arg(LIBRARY_COUNT)
+                             .arg(winner)
+                             .arg(diff, 0, 'f', 2));
+
+
+    ui->resultLabel->setText(tr("Системний тест DataManager (JSON)..."));
+    qApp->processEvents();
+
+    const int SYSTEM_NOTE_COUNT = 5000;
+
+    QPair<qint64, qint64> results = m_dataManager->runSystemBenchmark(SYSTEM_NOTE_COUNT);
+
+    double systemSaveTime = results.first;
+    double systemLoadTime = results.second;
+
+    ui->resultLabel->setText(
+        tr("Системний тест (%1 нотаток):\nЗбереження: %2 мс\nЗавантаження: %3 мс\nЗагалом: %4 мс")
+        .arg(SYSTEM_NOTE_COUNT)
+        .arg(systemSaveTime, 0, 'f', 1)
+        .arg(systemLoadTime, 0, 'f', 1)
+        .arg(systemSaveTime + systemLoadTime, 0, 'f', 1)
+    );
+
+    ui->runBenchmarkButton->setEnabled(true);
+    ui->runBenchmarkButton->setText(tr("Запустити тест"));
 }
 
 void SettingsDialog::plotResults(double nlohmannTime, double rapidJsonTime)

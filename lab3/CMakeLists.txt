@@ -64,10 +64,14 @@ add_executable(lab3_tests
 
 target_include_directories(lab3_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests
         ${CMAKE_CURRENT_SOURCE_DIR}/libs
 )
 
-target_link_libraries(lab3_tests PRIVATE Qt6::Core)
+target_link_libraries(lab3_tests PRIVATE
+        Qt6::Core
+        Qt6::PrintSupport
+)
 
 if (WIN32)
     set(QT_BIN_DIR "${CMAKE_PREFIX_PATH}/bin")

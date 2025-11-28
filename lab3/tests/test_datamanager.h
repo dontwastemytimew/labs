@@ -3,7 +3,7 @@
 
 #include <cassert>
 #include <iostream>
-#include "../datamanager.h"
+#include "datamanager.h"
 
 class TestDataManager {
 private:
@@ -11,27 +11,22 @@ private:
         std::cout << "  - Testing CRUD operations... ";
         DataManager dm;
 
-        // Створюємо базові елементи
         Schema s1("Схема A");
         dm.addSchema(s1);
         Note n1("Нотатка 1", 0);
         dm.addNote(n1);
 
-        // Читання/Кількість
         assert(dm.getSchemas().size() > 0);
         assert(dm.getNotes().size() == 1);
 
-        // Оновлення нотатки
         Note n2("Нова назва", 0);
         dm.updateNote(0, n2);
         assert(dm.getNotes()[0].getTitle() == "Нова назва");
 
-        // Оновлення схеми
         Schema s_upd("Схема Update");
         dm.updateSchema(0, s_upd);
         assert(dm.getSchemas()[0].getName() == "Схема Update");
 
-        // Видалення (Delete)
         dm.removeNote(0);
         dm.removeSchema(0);
         assert(dm.getNotes().isEmpty());
@@ -39,14 +34,12 @@ private:
         std::cout << "Passed!\n";
     }
 
-    // Перевірка, що DataManager повертає посилання, яке можна змінювати
     static void test_mutable_notes() {
         std::cout << "  - Testing mutable access to Notes... ";
         DataManager dm;
         Note n1("Temp Note", 0);
         dm.addNote(n1);
 
-        // Отримуємо посилання на нотатку
         dm.getNotes()[0].setTitle("Змінено через посилання");
 
         assert(dm.getNotes()[0].getTitle() == "Змінено через посилання");
@@ -56,9 +49,9 @@ private:
     static void test_manager_constructor() {
         std::cout << "  - Testing DataManager constructor default schema... ";
         DataManager dm;
-        assert(dm.getSchemas().size() == 1); // Перевіряємо, що одна схема існує
+        assert(dm.getSchemas().size() == 1);
         assert(dm.getSchemas()[0].getName() == "Книга");
-        assert(dm.getSchemas()[0].getFields().size() == 2); // Перевіряємо, що в неї 2 поля
+        assert(dm.getSchemas()[0].getFields().size() == 2);
         std::cout << "Passed!\n";
     }
 
@@ -68,16 +61,82 @@ private:
         Note n("Test", 0);
         dm.addNote(n);
 
-        // Спробуємо видалити з недійсними індексами
         dm.removeNote(-1);
         dm.removeNote(99);
 
-        // Спробуємо оновити з недійсними індексами
         dm.updateNote(-1, n);
         dm.updateNote(99, n);
 
-        // Якщо програма не "впала" і нотатка все ще на місці, тест пройдено
         assert(dm.getNotes().size() == 1);
+
+        std::cout << "Passed!\n";
+    }
+
+    static void test_note_sorting() {
+        std::cout << "  - Testing Note sorting logic... ";
+        DataManager dm;
+
+        int schemaId = 0;
+
+        Note n_old("AAA Oldest", schemaId);
+        n_old.setCreationDate(QDateTime(QDate(2023, 10, 1), QTime(10, 0, 0)));
+
+        Note n_pinned("CCC Pinned", schemaId);
+        n_pinned.setCreationDate(QDateTime(QDate(2023, 10, 3), QTime(10, 0, 0)));
+        n_pinned.setPinned(true); // Закріплена
+
+        Note n_new("BBB Newest", schemaId);
+        n_new.setCreationDate(QDateTime(QDate(2023, 10, 2), QTime(10, 0, 0)));
+
+        dm.addNote(n_old);
+        dm.addNote(n_pinned);
+        dm.addNote(n_new);
+
+        dm.sortNotes(SortType::ByNameAZ);
+
+        assert(dm.getNotes()[0].isPinned() == true);
+
+        assert(dm.getNotes()[0].getTitle() == "CCC Pinned");
+
+        dm.sortNotes(SortType::ByDateNewest);
+
+        assert(dm.getNotes()[0].getTitle() == "CCC Pinned");
+
+        assert(dm.getNotes()[1].getTitle() == "BBB Newest");
+        assert(dm.getNotes()[2].getTitle() == "AAA Oldest");
+
+        dm.sortNotes(SortType::ByNameAZ);
+
+        assert(dm.getNotes()[0].getTitle() == "CCC Pinned");
+
+        assert(dm.getNotes()[1].getTitle() == "AAA Oldest");
+        assert(dm.getNotes()[2].getTitle() == "BBB Newest");
+
+        std::cout << "Passed!\n";
+    }
+
+    static void test_usage_statistics() {
+        std::cout << "  - Testing usage statistics tracking... ";
+        DataManager dm;
+
+        QMap<QString, int> initialStats = dm.getUsageStats();
+
+        int secondsToday = 120;
+        dm.addUsageTime(secondsToday);
+
+        QMap<QString, int> updatedStats = dm.getUsageStats();
+        QString today = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+
+        assert(updatedStats.contains(today));
+
+        assert(updatedStats.value(today) >= initialStats.value(today, 0) + secondsToday);
+
+        int secondsMore = 60;
+        dm.addUsageTime(secondsMore);
+
+        QMap<QString, int> finalStats = dm.getUsageStats();
+
+        assert(finalStats.value(today) >= initialStats.value(today, 0) + secondsToday + secondsMore);
 
         std::cout << "Passed!\n";
     }
@@ -89,6 +148,8 @@ public:
         test_mutable_notes();
         test_manager_constructor();
         test_invalid_indices();
+        test_note_sorting();
+        test_usage_statistics();
         std::cout << "--- DataManager Tests Passed ---\n";
     }
 };

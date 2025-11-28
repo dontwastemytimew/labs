@@ -136,6 +136,14 @@ public:
      */
     void setPinned(bool pinned);
 
+ /**
+     * @brief Встановлює дату створення нотатки.
+     *
+     * Використовується переважно для десеріалізації (завантаження з JSON) та тестування.
+     * @param date Нова дата та час створення.
+     */
+ void setCreationDate(const QDateTime& date);
+
 private:
     QString m_title;                ///< Назва нотатки.
     int m_schemaId;                 ///< ID схеми, за якою створено нотатку.
