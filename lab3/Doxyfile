@@ -1119,7 +1119,7 @@ EXCLUDE_SYMLINKS       = NO
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       = */tests/* \
+EXCLUDE_PATTERNS       = */tests/* \ */lab2/README.md \
                          */libs/* \
 
                                                   */cmake-build-* \
@@ -1227,6 +1227,9 @@ FILTER_SOURCE_PATTERNS =
 # and want to reuse the introduction page also for the Doxygen output.
 
 USE_MDFILE_AS_MAINPAGE = YES
+
+# Вказуємо Doxygen використовувати цей файл як головну сторінку
+READM_FILE             = ../README.md
 
 # If the IMPLICIT_DIR_DOCS tag is set to YES, any README.md file found in sub-
 # directories of the project's root, is used as the documentation for that sub-
