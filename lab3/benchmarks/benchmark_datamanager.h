@@ -1,0 +1,8 @@
+//
+// Created by User on 29.11.2025.
+//
+
+#ifndef BENCHMARK_DATAMANAGER_H
+#define BENCHMARK_DATAMANAGER_H
+
+#endif //BENCHMARK_DATAMANAGER_H
