@@ -1,5 +1,9 @@
 #pragma once
 
+#include <QString>
+#include <QMessageLogContext>
+#include <QtGlobal>
+#include <QDebug>
 
 /**
  * @class Logger
